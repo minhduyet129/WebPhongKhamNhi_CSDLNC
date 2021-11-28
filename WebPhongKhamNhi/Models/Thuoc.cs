@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -16,9 +17,14 @@ namespace WebPhongKhamNhi.Models
 
         public int MaThuoc { get; set; }
         public int? MaNhaSanXuat { get; set; }
+        [Display(Name ="Tên thuốc")]
+        [Required(ErrorMessage ="{0} không được bỏ trống!")]
         public string Ten { get; set; }
+        [Display(Name ="Hướng dẫn sử dụng")]
         public string HuongDan { get; set; }
+        [Display(Name ="Số lượng tồn kho")]
         public int? SoLuongTonKho { get; set; }
+        [Display(Name ="Giá")]
         public decimal? Gia { get; set; }
         public DateTime? ThoiDiemSua { get; set; }
         public int? MaNguoiSua { get; set; }
