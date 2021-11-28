@@ -17,9 +17,7 @@ namespace WebPhongKhamNhi.Models
         [Display(Name="Họ và tên")]
         [Required(ErrorMessage ="{0} không được bỏ trống.")]
         public string HoTen { get; set; }
-        [Display(Name = "Chuyên môn")]
-        [Required(ErrorMessage = "{0} không được bỏ trống.")]
-        public string ChuyenMon { get; set; }
+       
         [Display(Name = "Trình độ")]
         [Required(ErrorMessage = "{0} không được bỏ trống.")]
         public string TrinhDo { get; set; }

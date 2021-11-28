@@ -48,7 +48,7 @@ namespace WebPhongKhamNhi.Controllers
             var kh = new Bacsi()
             {
                 HoTen=bacsi.HoTen,
-                ChuyenMon=bacsi.ChuyenMon,
+                
                 TrinhDo=bacsi.TrinhDo,
                 SoDienThoai=bacsi.SoDienThoai,
                 MaKhoa=bacsi.MaKhoa
@@ -80,7 +80,7 @@ namespace WebPhongKhamNhi.Controllers
             }
 
             kh.HoTen = bacsi.HoTen;
-            kh.ChuyenMon = bacsi.ChuyenMon;
+           
             kh.TrinhDo = bacsi.TrinhDo;
             kh.SoDienThoai = bacsi.SoDienThoai;
             kh.MaKhoa = bacsi.MaKhoa;
