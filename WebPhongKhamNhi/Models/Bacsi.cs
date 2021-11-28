@@ -25,7 +25,7 @@ namespace WebPhongKhamNhi.Models
         public string TrinhDo { get; set; }
         [Display(Name = "Số điện thoại")]
         [Required(ErrorMessage = "{0} không được bỏ trống.")]
-        [StringLength(11,MinimumLength = 9,ErrorMessage ="{0} có từ {2} đến {1} số")]
+        [StringLength(10,MinimumLength = 9,ErrorMessage ="{0} có từ {2} đến {1} số")]
         public string SoDienThoai { get; set; }
         public int? MaKhoa { get; set; }
 
