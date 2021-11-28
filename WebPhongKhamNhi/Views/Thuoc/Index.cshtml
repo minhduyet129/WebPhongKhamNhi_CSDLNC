@@ -1,0 +1,57 @@
+﻿@model IEnumerable<WebPhongKhamNhi.Models.Thuoc>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ten)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.SoLuongTonKho)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gia)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.MaNhaSanXuatNavigation.TenNhaSanXuat)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ten)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuongTonKho)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gia)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.MaNhaSanXuatNavigation.TenNhaSanXuat)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaThuoc">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaThuoc">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaThuoc">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
