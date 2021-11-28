@@ -1,0 +1,54 @@
+﻿@model WebPhongKhamNhi.Models.Bacsi
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Bacsi</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MaBacSi" />
+            <div class="form-group">
+                <label asp-for="HoTen" class="control-label"></label>
+                <input asp-for="HoTen" class="form-control" />
+                <span asp-validation-for="HoTen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChuyenMon" class="control-label"></label>
+                <input asp-for="ChuyenMon" class="form-control" />
+                <span asp-validation-for="ChuyenMon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrinhDo" class="control-label"></label>
+                <input asp-for="TrinhDo" class="form-control" />
+                <span asp-validation-for="TrinhDo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SoDienThoai" class="control-label"></label>
+                <input asp-for="SoDienThoai" class="form-control" />
+                <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tên khoa</label><br />
+                @*<select asp-for="MaKhoa" class ="form-control" asp-items="khoalist"></select>*@
+                @Html.DropDownList("MaKhoa", new SelectList(ViewBag.Khoa, "MaKhoa", "TenKhoa"), String.Empty, new { @Class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
