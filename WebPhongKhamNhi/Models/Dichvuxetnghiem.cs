@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -13,6 +14,8 @@ namespace WebPhongKhamNhi.Models
         }
 
         public int MaXetNghiem { get; set; }
+        [Display(Name = "Tên Dịch Vụ Xét Ngiệm")]
+        [Required(ErrorMessage = "Tên Dịch Vụ Xét Ngiệm không được bỏ trống.")]
         public string TenXetNghiem { get; set; }
         public decimal? ChiPhi { get; set; }
 
