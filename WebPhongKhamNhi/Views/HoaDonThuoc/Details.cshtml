@@ -1,0 +1,72 @@
+﻿@model WebPhongKhamNhi.Models.Hoadonthuoc
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Hoadonthuoc</h4>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            Mã hóa đơn
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MaHoaDon)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NgayThanhToan)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NgayThanhToan)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TongTien)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TongTien)
+        </dd>
+    </dl>
+    <h3>Chi tiết hóa đơn thuốc</h3>
+    <a asp-action="CreateCTHDT" asp-route-mahoadon="@Model.MaHoaDon" style="display:block" ><button class="btn btn-primary">Thêm thuốc vào hóa đơn thuốc</button></a>
+    
+    <br />
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Tên thuốc</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+                <th>Thành tiền</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in ViewBag.ListCTHDT)
+            {
+            <tr>
+                <td></td>
+                <td>@item.MaThuocNavigation.Ten</td>
+                <td>@item.SoLuong</td>
+                <td>@item.Gia</td>
+                <td>@item.ThanhTien</td>
+                <td>
+                    <a asp-action="EditCTHDT" asp-route-mahoadon="@item.MaHoaDonThuoc" asp-route-mathuoc="@item.MaThuoc">Edit</a> |
+                   
+                    <a asp-action="DeleteCTHDT" asp-route-mahoadon="@item.MaHoaDonThuoc" asp-route-mathuoc="@item.MaThuoc">Delete</a>
+                </td>
+            </tr>
+            }
+            
+            
+        </tbody>
+    </table>
+</div>
+<div>
+    |
+    <a asp-action="Index">Back to List</a>
+</div>
