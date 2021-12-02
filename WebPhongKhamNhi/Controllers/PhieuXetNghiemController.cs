@@ -18,11 +18,16 @@ namespace WebPhongKhamNhi.Controllers
             _context = context;
         } 
 
-        public IActionResult Index()
+        public IActionResult Index(string keyword)
         {
-            var listpxn = _context.Phieuxetnghiems.OrderByDescending(x => x.NgayThanhToan);
+            var listpxn = _context.Phieuxetnghiems.OrderByDescending(x => x.NgayThanhToan).ToList();
             var listdvxn = _context.Dichvuxetnghiems.OrderBy(x => x.TenXetNghiem);
             ViewBag.Dichvuxetnghiem = listdvxn;
+            if (String.IsNullOrEmpty(keyword))
+            {
+                return View(listpxn);
+            }
+            listpxn = listpxn.Where(x => x.MaPhieuXetNghiem.ToString().Contains(keyword) || x.NgayThanhToan.ToString().Contains(keyword)).ToList();
             return View(listpxn);
         }
         public IActionResult Details(int id)
