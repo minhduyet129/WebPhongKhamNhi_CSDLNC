@@ -1,0 +1,83 @@
+﻿@model IEnumerable<WebPhongKhamNhi.Models.Benhnhan>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<h4>Tìm kiếm theo tên và số điện thoại</h4>
+<form asp-action="Index" method="post">
+    <input type="text" name="keyword" />
+    <button type="submit">Tìm kiếm</button>
+</form>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HoTen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgaySinh)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.TenTaiKhoan)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.SoDienThoai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoaiTaiKhoan)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoTen)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgaySinh)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenTaiKhoan)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoDienThoai)
+                </td>
+
+                @if (item.LoaiTaiKhoan == 1)
+                {
+                    <td>Admin</td>
+                }
+                else if (item.LoaiTaiKhoan == 0)
+                {
+                    <td>User</td>
+                }
+                else
+                {
+                    <td>
+                    </td>
+                }
+
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MaBenhNhan">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.MaBenhNhan">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MaBenhNhan">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
