@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebPhongKhamNhi.Models.Phieunhap>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Thêm phiếu nhập thuôcs</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MaPhieuNhap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayNhap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TongTien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaNhaSanXuatNavigation.TenNhaSanXuat)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaPhieuNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TongTien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaNhaSanXuatNavigation.TenNhaSanXuat)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaPhieuNhap">Sửa</a> |
+                <a asp-action="Details" asp-route-id="@item.MaPhieuNhap">Chi tiết phiếu nhập</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaPhieuNhap">Xoá</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

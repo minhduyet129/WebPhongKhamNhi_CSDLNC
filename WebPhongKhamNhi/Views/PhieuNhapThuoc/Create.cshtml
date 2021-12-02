@@ -1,0 +1,145 @@
+﻿@model WebPhongKhamNhi.Models.Phieunhap
+
+@{
+    ViewData["Title"] = "Create";
+    var listNsx = ViewBag.listNsx;
+}
+
+<h1>Create</h1>
+<h4>Phieunhap</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+
+                <label asp-for="NgayNhap" class="control-label"></label>
+                <input asp-for="NgayNhap" class="form-control" />
+                <span asp-validation-for="NgayNhap" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                    <label asp-for="TongTien" class="control-label"></label>
+                    <input asp-for="TongTien" class="form-control" />
+                    <span asp-validation-for="TongTien" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaNhaSanXuat" cls="control-label"></label>
+                    <select asp-for="MaNhaSanXuat" clasass ="form-control" asp-items="ViewBag.MaNhaSanXuat"></select>
+                </div>*@
+            <div class="form-group">
+                @Html.DropDownList("MaNhaSanXuat", new SelectList(listNsx, "MaNhaSanXuat", "TenNhaSanXuat"), "--Chọn nhà sản xuất--");
+            </div>
+            <div class="form-group">
+                @*<input type="submit" value="Create" class="btn btn-primary" />*@
+            </div>
+        </form>
+    </div>
+</div>
+<div class="form-group">
+    <partial name="_ThemChiTietPhieuNhap" />
+</div>
+<div class="container">
+    <a asp-action="Index">Back to List</a>
+</div>
+<input id="btnSave" type="button" value="Create" class="btn btn-primary" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+
+            @* bind event click delete vao ca button moi them *@
+            $('#tableChiTietPhieuNhap').on('click', '.deleteCt', function () {
+                var rowCount = $('#tableChiTietPhieuNhap tr').length;
+
+                //Bang phai co it nhat 2: 1 dong header, 1 dong du lieu
+                if (rowCount > 2) {
+                    $(this).closest("tr").remove();
+                }
+            });
+
+
+            $("#btnThemChiTietPhieuNhap").click(function () {
+                var newRowHtml = $('#tableChiTietPhieuNhap tr:last').html();
+                $('#tableChiTietPhieuNhap tr:last').after('<tr>' + newRowHtml + '</tr>');
+            });
+        
+
+            $("#btnSave").click(function () {
+
+                var form = $('#__AjaxAntiForgeryForm');
+                var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+                //lấy dữ liệu phiếu nhập
+                var phieuNhap = {};
+                phieuNhap.NgayNhap = $('#NgayNhap').val();
+                phieuNhap.MaNhaSanXuat = $('#MaNhaSanXuat').val();
+
+                //lấy dữ liệu danh sách chi tiết phiếu nhập
+                var chiTietPhieus = [];
+                //duyệt từng dòng trong bảng
+                var tongTien = 0;
+                $('#tableChiTietPhieuNhap tbody>tr').each(function (trIndex, trElement) {
+                    chiTiet = {};
+                    chiTiet.MaThuoc = $(trElement).find('select').val();
+                    chiTiet.GiaThuoc = $(trElement).find(".giathuoc").val();
+                    chiTiet.SoLuong = $(trElement).find('.soluong').val();
+
+                    var thanhTien = $(trElement).find('.thanhTien').html();
+                    chiTiet.ThanhTien = thanhTien;
+
+                    chiTietPhieus.push(chiTiet);
+
+                    tongTien += parseFloat(thanhTien);
+                })
+                //cập nhật lại tổng tiền phiếu nhập
+                phieuNhap.TongTien = tongTien;
+                alert(tongTien)
+                //gửi dữ liệu tới controller
+                $.ajax({
+                    url: '@Url.Action("Create", "PhieuNhapThuoc")',
+                    type: 'post',
+                    data: { phieuNhap: phieuNhap, chiTietPhieus: chiTietPhieus },
+                    dataType: "json",
+                }).done(function (response) {
+                    if (response.status == true) {
+                        window.location.href = response.redirectToUrl;
+                    }
+                }).fail(function (response) {
+                    console.log(response.responseText)
+                });
+            });
+
+
+            //tính thành tiền sau khi nhập text box thêm chi tiết thuốc
+            //event text box giathuoc thay đổi 
+            //event text box soluong thay đổi
+            //
+            $('#tableChiTietPhieuNhap').on('input', '.giathuoc', function () {
+                var soLuongVal = $(this).closest('tr').find('.soluong').val();
+
+                //chuyển soluong về int hoặc 0
+                var soLuong = parseInt(soLuongVal) || 0;
+
+                var giaThuocVal = $(this).val();
+                var giaThuoc = parseFloat(giaThuocVal) || 0;
+
+                $(this).closest('tr').find('.thanhTien').html(soLuong * giaThuoc);
+            })
+
+            $('#tableChiTietPhieuNhap').on('input', '.soluong', function () {
+                var giaThuocVal = $(this).closest('tr').find('.giathuoc').val();
+
+                //chuyển soluong về int hoặc 0
+                var giaThuoc = parseInt(giaThuocVal) || 0;
+
+                var soLuongVal = $(this).val();
+                var soLuong = parseFloat(soLuongVal) || 0;
+
+                $(this).closest('tr').find('.thanhTien').html(soLuong * giaThuoc);
+            })
+    })
+    </script>
+}
