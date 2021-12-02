@@ -1,0 +1,40 @@
+﻿@model WebPhongKhamNhi.Models.Phieunhap
+
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Phieunhap</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NgayNhap)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NgayNhap)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TongTien)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TongTien)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MaNhaSanXuatNavigation.TenNhaSanXuat)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MaNhaSanXuatNavigation.TenNhaSanXuat)
+        </dd>
+    </dl>
+
+    <h4>Chi tiết phiếu nhập</h4>
+</div>
+<partial name="_BangChiTietPhieuNhap" model="ViewBag.listChiTietPhieuNhap" />
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.MaPhieuNhap">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
