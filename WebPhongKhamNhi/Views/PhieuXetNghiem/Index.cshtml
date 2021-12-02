@@ -6,9 +6,12 @@
 }
 
 <h1>Index</h1>
-
-<h1>Index</h1>
-
+<h4>Tìm kiếm theo mã phiếu xét nghiệm và ngày thanh toán</h4>
+<form asp-action="Index" method="post">
+    <input type="text" name="keyword" />
+    <button type="submit">Tìm kiếm</button>
+</form> 
+<br />
 <p>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
         Thêm phiếu xét nghiệm
@@ -88,7 +91,7 @@
                             </td>
                             <td>
                                 <input type="number" class="txtChiPhi form-control" min="0" value="0" />
-                            </td>                            
+                            </td>
                             <td><span class="btnDelete btn btn-danger">-</span></td>
                         </tr>
                         <tr class="trFirstChild" data-id="-1">
@@ -130,11 +133,11 @@
                 var id = $(this).attr("data-id");
                 var sanPhamId = "[" + id + "].MaXetNghiem";
                 var chiPhi = "[" + id + "].ChiPhi";
-               
+
 
                 $(this).find(".txtSanPhamId").prop("name", sanPhamId);
                 $(this).find(".txtChiPhi").prop("name", chiPhi);
-               
+
             });
         };
 
@@ -148,7 +151,7 @@
 
                 var sanPhamId = "[" + id + "].MaXetNghiem";
                 var chiPhi = "[" + id + "].ChiPhi";
-                
+
 
                 $(this).find(".txtSanPhamId").prop("name", sanPhamId);
                 $(this).find(".txtChiPhi").prop("name", chiPhi);
