@@ -5,11 +5,9 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h3>THÔNG TIN PHIẾU NHẬP THUỐC</h3>
 
 <div>
-    <h4>Phieunhap</h4>
-    <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.NgayNhap)
@@ -31,7 +29,6 @@
         </dd>
     </dl>
 
-    <h4>Chi tiết phiếu nhập</h4>
 </div>
 <partial name="_BangChiTietPhieuNhap" model="ViewBag.listChiTietPhieuNhap" />
 <div>
