@@ -1,0 +1,73 @@
+﻿@model WebPhongKhamNhi.Models.Phieuxetnghiem
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Phieuxetnghiem</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MaPhieuXetNghiem)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MaPhieuXetNghiem)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MaHoSo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MaHoSo)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NgayThanhToan)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NgayThanhToan)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TongTien)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TongTien)
+        </dd>
+
+    </dl>
+    <h3>Chi tiết phiếu xét nghiệm</h3>
+    <a asp-action="CreateCTPXN" asp-route-maphieuxetnghiem="@Model.MaPhieuXetNghiem" style="display:block"><button class="btn btn-primary">Thêm xét nghiệm vào phiếu xét nghiệm</button></a>
+
+    <br />
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Tên xét nghiệm</th>
+                <th>Chi Phí</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.ListCTPXN)
+            {
+                <tr>
+                    <td></td>
+                    <td>@item.MaXetNghiemNavigation.TenXetNghiem</td>
+                    <td>@item.ChiPhi</td>
+                    <td>
+                        <a asp-action="EditCTPXN" asp-route-maphieuxetnghiem="@item.MaPhieuXetNghiem" asp-route-maxetnghiem="@item.MaXetNghiem">Edit</a> |
+
+                        <a asp-action="DeleteCTPXN" asp-route-maphieuxetnghiem="@item.MaPhieuXetNghiem" asp-route-maxetnghiem="@item.MaXetNghiem">Delete</a>
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+</div>
+
+<div>
+      <a asp-action="Index">Back to List</a>
+</div>

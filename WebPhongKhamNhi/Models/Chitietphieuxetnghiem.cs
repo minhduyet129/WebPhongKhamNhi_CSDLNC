@@ -13,5 +13,6 @@ namespace WebPhongKhamNhi.Models
 
         public virtual Phieuxetnghiem MaPhieuXetNghiemNavigation { get; set; }
         public virtual Dichvuxetnghiem MaXetNghiemNavigation { get; set; }
+       
     }
 }
