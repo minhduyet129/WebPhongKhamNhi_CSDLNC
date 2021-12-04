@@ -80,6 +80,11 @@
     <button type="submit" class="btn btn-primary">Danh sách hồ sơ khám</button>
 </form>
 
+<form action="@Url.Action("GetByIDBenhNhan","PhieuDangKyKham")" method="get">
+    <input type="hidden" name="id" value="@Model.MaBenhNhan" />
+    <button type="submit" class="btn btn-primary">Lịch sử đăng ký</button>
+</form>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.MaBenhNhan">Edit</a> |
     <a asp-action="Index">Back to List</a>

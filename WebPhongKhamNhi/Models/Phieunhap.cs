@@ -15,7 +15,6 @@ namespace WebPhongKhamNhi.Models
         }
 
         [DisplayName("Mã phiếu nhập")]
-        [Required(ErrorMessage = "{0} không được để trống")]
         public int MaPhieuNhap { get; set; }
 
         [DisplayName("Ngày nhập")]
