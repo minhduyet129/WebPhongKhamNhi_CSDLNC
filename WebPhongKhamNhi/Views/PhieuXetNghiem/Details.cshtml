@@ -69,9 +69,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Quay lại</a>
-    <form action="/PhieuXetNghiem/GetPXNTheoHoSo" method="get">
-        <input type="hidden" name="id" value="@Model.MaHoSo" />
-        <button type="submit" class="btn btn-primary">Danh sách phiếu xét nghiệm</button>
-    </form>
+   
+        <a asp-action="GetPXNTheoHoSo" asp-route-id="@Model.MaHoSo">Quay lại</a>
+   
 </div>

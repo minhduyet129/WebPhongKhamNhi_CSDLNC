@@ -18,9 +18,24 @@ namespace WebPhongKhamNhi.Controllers
             _context = context;
         } 
 
-        public IActionResult Index(string keyword)
+        //public IActionResult Index(string keyword)
+        //{
+        //    var listpxn = _context.Phieuxetnghiems.OrderByDescending(x => x.NgayThanhToan).ToList();
+        //    var listdvxn = _context.Dichvuxetnghiems.OrderBy(x => x.TenXetNghiem);
+        //    ViewBag.Dichvuxetnghiem = listdvxn;
+        //    if (String.IsNullOrEmpty(keyword))
+        //    {
+        //        return View(listpxn);
+        //    }
+        //    listpxn = listpxn.Where(x => x.MaPhieuXetNghiem.ToString().Contains(keyword) || x.NgayThanhToan.ToString().Contains(keyword)).ToList();
+        //    return View(listpxn);
+        //}
+
+        public IActionResult GetPXNTheoHoSo (int id, string keyword)
         {
-            var listpxn = _context.Phieuxetnghiems.OrderByDescending(x => x.NgayThanhToan).ToList();
+            var listpxn = _context.Phieuxetnghiems.Include(x => x.MaHoSoNavigation).OrderByDescending(x => x.NgayThanhToan).Where(x => x.MaHoSo == id).ToList();
+
+            ViewBag.MaHoSo = id;
             var listdvxn = _context.Dichvuxetnghiems.OrderBy(x => x.TenXetNghiem);
             ViewBag.Dichvuxetnghiem = listdvxn;
             if (String.IsNullOrEmpty(keyword))
@@ -31,67 +46,59 @@ namespace WebPhongKhamNhi.Controllers
             return View(listpxn);
         }
 
-        public IActionResult GetPXNTheoHoSo (int id)
-        {
-            var listpxn = _context.Phieuxetnghiems.Include(x => x.MaHoSoNavigation).OrderByDescending(x => x.NgayThanhToan).Where(x => x.MaHoSo == id);
-
-            ViewBag.MaHoSo = id;
-            return View(listpxn);
-        }
-
-        [HttpGet]
-        public IActionResult CreatePXNTheoHoSo (int id)
-        {
-            var listbs = _context.Bacsis.OrderBy(x => x.HoTen);
-            ViewBag.BacSi = listbs;
-            ViewBag.BenhNhan = id;
-            return View();
-        }
-        [HttpPost]
-        public IActionResult CreatePXNTheoHoSo (Phieuxetnghiem phieuxetnghiem)
-        {
-            var hs = new Phieuxetnghiem()
-            {
-                NgayThanhToan = phieuxetnghiem.NgayThanhToan, 
-                TongTien = phieuxetnghiem.TongTien, 
-                MaPhieuXetNghiem = phieuxetnghiem.MaPhieuXetNghiem, 
-                MaHoSo = phieuxetnghiem.MaHoSo
+        //[HttpGet]
+        //public IActionResult CreatePXNTheoHoSo (int id)
+        //{
+        //    var listbs = _context.Bacsis.OrderBy(x => x.HoTen);
+        //    ViewBag.BacSi = listbs;
+        //    ViewBag.BenhNhan = id;
+        //    return View();
+        //}
+        //[HttpPost]
+        //public IActionResult CreatePXNTheoHoSo (Phieuxetnghiem phieuxetnghiem)
+        //{
+        //    var hs = new Phieuxetnghiem()
+        //    {
+        //        NgayThanhToan = phieuxetnghiem.NgayThanhToan, 
+        //        TongTien = phieuxetnghiem.TongTien, 
+        //        MaPhieuXetNghiem = phieuxetnghiem.MaPhieuXetNghiem, 
+        //        MaHoSo = phieuxetnghiem.MaHoSo
 
 
-            };
-            _context.Phieuxetnghiems.Add(hs);
-            _context.SaveChanges();
-            return RedirectToAction("GetPXNTheoHoSo", new { id = phieuxetnghiem.MaHoSo });
-        }
-        [HttpGet]
-        public IActionResult EditPXNTheoHoSo (int id)
-        {
-            var kh = _context.Phieuxetnghiems.Find(id);
-            if (kh == null)
-            {
-                return NotFound();
-            }
-            var listbs = _context.Bacsis.OrderBy(x => x.HoTen);
-            ViewBag.BacSi = listbs;
-            return View(kh);
-        }
-        [HttpPost]
-        public IActionResult EditPXNTheoHoSo (Phieuxetnghiem phieuxetnghiem)
-        {
-            var kh = _context.Phieuxetnghiems.Find(phieuxetnghiem.MaHoSo);
-            if (kh == null)
-            {
-                return NotFound();
-            }
+        //    };
+        //    _context.Phieuxetnghiems.Add(hs);
+        //    _context.SaveChanges();
+        //    return RedirectToAction("GetPXNTheoHoSo", new { id = phieuxetnghiem.MaHoSo });
+        //}
+        //[HttpGet]
+        //public IActionResult EditPXNTheoHoSo (int id)
+        //{
+        //    var kh = _context.Phieuxetnghiems.Find(id);
+        //    if (kh == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var listbs = _context.Bacsis.OrderBy(x => x.HoTen);
+        //    ViewBag.BacSi = listbs;
+        //    return View(kh);
+        //}
+        //[HttpPost]
+        //public IActionResult EditPXNTheoHoSo (Phieuxetnghiem phieuxetnghiem)
+        //{
+        //    var kh = _context.Phieuxetnghiems.Find(phieuxetnghiem.MaHoSo);
+        //    if (kh == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            kh.NgayThanhToan = phieuxetnghiem.NgayThanhToan;
+        //    kh.NgayThanhToan = phieuxetnghiem.NgayThanhToan;
 
-            kh.TongTien = phieuxetnghiem.TongTien;           
+        //    kh.TongTien = phieuxetnghiem.TongTien;           
 
-            _context.SaveChanges();
-            return RedirectToAction("GetPXNTheoHoSo", new { id = phieuxetnghiem.MaHoSo });
+        //    _context.SaveChanges();
+        //    return RedirectToAction("GetPXNTheoHoSo", new { id = phieuxetnghiem.MaHoSo });
 
-        }
+        //}
         public IActionResult Details(int id)
         {
             var pxn = _context.Phieuxetnghiems.Find(id);
@@ -103,10 +110,11 @@ namespace WebPhongKhamNhi.Controllers
             return View(pxn);
         }
         [HttpPost]
-        public IActionResult Create(List<Chitietphieuxetnghiem> ctpxnghiem)
+        public IActionResult CreatePXNTheoHoSo(List<Chitietphieuxetnghiem> ctpxnghiem, int mahoso)
         {
             var kh = new Phieuxetnghiem()
-            {
+            { 
+                MaHoSo = mahoso,
                 NgayThanhToan = DateTime.Now
 
             };
@@ -145,7 +153,7 @@ namespace WebPhongKhamNhi.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeletePost(int MaPhieuXetNghiem)
+        public IActionResult DeletePost(int MaPhieuXetNghiem, int mahoso)
         {
             var kh = _context.Phieuxetnghiems.Find(MaPhieuXetNghiem);
 
@@ -157,7 +165,7 @@ namespace WebPhongKhamNhi.Controllers
             _context.Chitietphieuxetnghiems.RemoveRange(listctpxn);
             _context.Phieuxetnghiems.Remove(kh);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("GetPXNTheoHoSo", new {id= mahoso});
         }
 
         [HttpGet]
