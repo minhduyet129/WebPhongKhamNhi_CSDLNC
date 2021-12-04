@@ -1,0 +1,41 @@
+﻿@model WebPhongKhamNhi.Models.Phieudangkykham
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Thông tin phiếu đăng ký khám</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NgayDangKy)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NgayDangKy)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TongTien)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TongTien)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MaBenhNhanNavigation.HoTen)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MaBenhNhanNavigation.HoTen)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MaDichVuNavigation.TenDichVu)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MaDichVuNavigation.TenDichVu)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.MaPhieuDangKy">Sửa</a> |
+    <a asp-action="Index">Trở lại</a>
+</div>

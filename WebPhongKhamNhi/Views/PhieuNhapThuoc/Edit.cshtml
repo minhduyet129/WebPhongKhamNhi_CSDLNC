@@ -1,0 +1,204 @@
+﻿@model WebPhongKhamNhi.Models.Phieunhap
+
+@{
+    ViewData["Title"] = "Create";
+    var listNsx = ViewBag.listNsx;
+    var phieuNhap = ViewBag.phieuNhap;
+    var listThuoc = ViewBag.listThuoc;
+    var chiTiets = ViewBag.chiTiets;
+}
+
+<h1>Sửa thông tin phiếu nhập thuốc</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <input id="maPhieuNhap" type="hidden" value="@phieuNhap.MaPhieuNhap" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="NgayNhap" class="control-label"></label>
+            <input asp-for="NgayNhap" class="form-control"
+                   value="@phieuNhap.NgayNhap.ToString("yyyy-MM-ddTHH:mm:ss")" />
+            <span asp-validation-for="NgayNhap" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input id="mansx" type="hidden" data-mansx="@phieuNhap.MaNhaSanXuat" />
+            @Html.DropDownList("MaNhaSanXuat",
+                new SelectList(listNsx, "MaNhaSanXuat", "TenNhaSanXuat"),
+                "--Chọn nhà sản xuất--");
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-9">
+        <table class="myTable" id="tableEditPhieuNhap">
+            <thead>
+                <tr>
+                    <th>
+                        <label for="TenThuoc">Tên thuốc</label>
+                    </th>
+                    <th>
+                        <label for="GiaThuoc">Giá thuốc</label>
+                    </th>
+                    <th>
+                        <label for="SoLuong">Số lượng</label>
+                    </th>
+                    <th>
+                        <label for="ThanhTien">Thành tiền</label>
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ct in chiTiets)
+                {
+                    <tr>
+                        <td>
+                            @Html.DropDownList("TenThuoc", new SelectList(listThuoc, "MaThuoc", "Ten"), new { @class = "tenThuoc" })
+                            <input type="hidden" class="hiddenTenThuoc" value="@ct.MaThuoc" />
+                        </td>
+                        <td>
+                            <input id="GiaThuoc" name="GiaThuoc" class="form-control giathuoc" value="@ct.GiaThuoc" />
+                        </td>
+                        <td>
+                            <input id="SoLuong" name="SoLuong" class="form-control soluong" value="@ct.SoLuong" />
+                        </td>
+                        <td class="thanhTien">@ct.ThanhTien</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-danger deleteCt">-</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="form-group">
+            <input id="btnThemChiTietPhieuNhap" name="themChiTietPhieuNhap" type="button" value="Thêm thuốc" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+
+<input id="btnUpdate" type="button" value="Lưu" class="btn btn-primary" />
+
+<div class="container">
+    <a asp-action="Index">Quay lại</a>
+</div>
+
+@*ajax gửi request tới controller với AntiForgeryToken *@
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            var mansx = $('#mansx').data("mansx");
+            $('#MaNhaSanXuat').val(mansx).change();
+            //gán dữ liệu cho select tên thuốc
+            //duyệt bảng, lấy dòng
+            $('#tableEditPhieuNhap tbody>tr').each(function (index, element) {
+                var tenThuoc = $(element).find('.hiddenTenThuoc').val();
+                $(element).find('.tenThuoc').val(tenThuoc);
+            })
+            //gán giá trị cho select
+
+            @* bind event click delete vao ca button moi them *@
+            $('#tableEditPhieuNhap').on('click', '.deleteCt', function () {
+                var rowCount = $('#tableEditPhieuNhap tr').length;
+
+                //Bang phai co it nhat 2: 1 dong header, 1 dong du lieu
+                if (rowCount > 2) {
+                    $(this).closest("tr").remove();
+                }
+            });
+
+            //Click thêm dòng mới
+            $("#btnThemChiTietPhieuNhap").click(function () {
+                var newRowHtml = $('#tableEditPhieuNhap tr:last').html();
+                $('#tableEditPhieuNhap tr:last').after('<tr>' + newRowHtml + '</tr>');
+            });
+
+
+            $("#btnUpdate").click(function () {
+                var form = $('#__AjaxAntiForgeryForm');
+                var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+                //lấy dữ liệu phiếu nhập
+                var maPhieuNhap = $('#maPhieuNhap').val();
+                var phieuNhap = {};
+                phieuNhap.NgayNhap = $('#NgayNhap').val();
+                phieuNhap.MaNhaSanXuat = $('#MaNhaSanXuat').val();
+
+                //lấy dữ liệu danh sách chi tiết phiếu nhập
+                var chiTietPhieus = [];
+                //duyệt từng dòng trong bảng
+                var tongTien = 0;
+                $('#tableEditPhieuNhap tbody>tr').each(function (trIndex, trElement) {
+                    chiTiet = {};
+                    chiTiet.MaThuoc = $(trElement).find('select').val();
+                    chiTiet.GiaThuoc = $(trElement).find(".giathuoc").val();
+                    chiTiet.SoLuong = $(trElement).find('.soluong').val();
+
+                    var thanhTien = $(trElement).find('.thanhTien').html();
+                    chiTiet.ThanhTien = thanhTien;
+
+                    chiTietPhieus.push(chiTiet);
+
+                    tongTien += parseFloat(thanhTien);
+                })
+                //cập nhật lại tổng tiền phiếu nhập
+                phieuNhap.TongTien = tongTien;
+                //gửi dữ liệu tới controller
+                $.ajax({
+                    url: '@Url.Action("Edit", "PhieuNhapThuoc")',
+                    type: 'post',
+                    data: {
+                        __RequestVerificationToken: token,
+                        maPhieuNhap: maPhieuNhap,
+                        phieuNhap: phieuNhap,
+                        chiTietPhieus: chiTietPhieus
+                    },
+                    dataType: "json",
+                }).done(function (response) {
+                    alert('successed')
+                    if (response.status == true) {
+                        window.location.href = response.redirectToUrl;
+                    }
+                }).fail(function (response) {
+                    console.log(response.responseText)
+                });
+            });
+
+
+            //tính thành tiền sau khi nhập text box thêm chi tiết thuốc
+            //event text box giathuoc thay đổi
+            //event text box soluong thay đổi
+            //
+            $('#tableEditPhieuNhap').on('input', '.giathuoc', function () {
+                var soLuongVal = $(this).closest('tr').find('.soluong').val();
+
+                //chuyển soluong về int hoặc 0
+                var soLuong = parseInt(soLuongVal) || 0;
+
+                var giaThuocVal = $(this).val();
+                var giaThuoc = parseFloat(giaThuocVal) || 0;
+
+                $(this).closest('tr').find('.thanhTien').html(soLuong * giaThuoc);
+            })
+
+            $('#tableEditPhieuNhap').on('input', '.soluong', function () {
+                var giaThuocVal = $(this).closest('tr').find('.giathuoc').val();
+
+                //chuyển soluong về int hoặc 0
+                var giaThuoc = parseInt(giaThuocVal) || 0;
+
+                var soLuongVal = $(this).val();
+                var soLuong = parseFloat(soLuongVal) || 0;
+
+                $(this).closest('tr').find('.thanhTien').html(soLuong * giaThuoc);
+            })
+    })
+    </script>
+}

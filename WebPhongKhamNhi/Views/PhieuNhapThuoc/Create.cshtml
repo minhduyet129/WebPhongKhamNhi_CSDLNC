@@ -4,51 +4,50 @@
     ViewData["Title"] = "Create";
     var listNsx = ViewBag.listNsx;
 }
-
+<form id="formTest">
+    <div class="form-group">
+        <input asp-for="NgayNhap" class="form-control" />
+        <span asp-validation-for="NgayNhap" class="text-danger"></span>
+    </div>
+    <input type="submit" value="shit"/>
+</form>
 <h1>Create</h1>
 <h4>Phieunhap</h4>
-<hr />
+<hr/>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-
-                <label asp-for="NgayNhap" class="control-label"></label>
-                <input asp-for="NgayNhap" class="form-control" />
-                <span asp-validation-for="NgayNhap" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                    <label asp-for="TongTien" class="control-label"></label>
-                    <input asp-for="TongTien" class="form-control" />
-                    <span asp-validation-for="TongTien" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="MaNhaSanXuat" cls="control-label"></label>
-                    <select asp-for="MaNhaSanXuat" clasass ="form-control" asp-items="ViewBag.MaNhaSanXuat"></select>
-                </div>*@
-            <div class="form-group">
-                @Html.DropDownList("MaNhaSanXuat", new SelectList(listNsx, "MaNhaSanXuat", "TenNhaSanXuat"), "--Chọn nhà sản xuất--");
-            </div>
-            <div class="form-group">
-                @*<input type="submit" value="Create" class="btn btn-primary" />*@
-            </div>
-        </form>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="NgayNhap" class="control-label"></label>
+            <input asp-for="NgayNhap" class="form-control" />
+            <span asp-validation-for="NgayNhap" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            @Html.DropDownList("MaNhaSanXuat",
+            new SelectList(listNsx, "MaNhaSanXuat", "TenNhaSanXuat"),
+            "--Chọn nhà sản xuất--");
+        </div>
     </div>
 </div>
 <div class="form-group">
     <partial name="_ThemChiTietPhieuNhap" />
 </div>
+<input id="btnSave" type="button" value="Create" class="btn btn-primary" />
+
 <div class="container">
     <a asp-action="Index">Back to List</a>
 </div>
-<input id="btnSave" type="button" value="Create" class="btn btn-primary" />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
         $(document).ready(function () {
+            $('#formTest').on('submit', function (event) {
+
+                e.preventDefault();
+            })
+
 
             @* bind event click delete vao ca button moi them *@
             $('#tableChiTietPhieuNhap').on('click', '.deleteCt', function () {
@@ -65,7 +64,7 @@
                 var newRowHtml = $('#tableChiTietPhieuNhap tr:last').html();
                 $('#tableChiTietPhieuNhap tr:last').after('<tr>' + newRowHtml + '</tr>');
             });
-        
+
 
             $("#btnSave").click(function () {
 
@@ -96,7 +95,7 @@
                 })
                 //cập nhật lại tổng tiền phiếu nhập
                 phieuNhap.TongTien = tongTien;
-                alert(tongTien)
+
                 //gửi dữ liệu tới controller
                 $.ajax({
                     url: '@Url.Action("Create", "PhieuNhapThuoc")',
@@ -107,14 +106,17 @@
                     if (response.status == true) {
                         window.location.href = response.redirectToUrl;
                     }
+                    else {
+                        alert(response.message)
+                    }
                 }).fail(function (response) {
-                    console.log(response.responseText)
+                    alert(response.message)
                 });
             });
 
 
             //tính thành tiền sau khi nhập text box thêm chi tiết thuốc
-            //event text box giathuoc thay đổi 
+            //event text box giathuoc thay đổi
             //event text box soluong thay đổi
             //
             $('#tableChiTietPhieuNhap').on('input', '.giathuoc', function () {
