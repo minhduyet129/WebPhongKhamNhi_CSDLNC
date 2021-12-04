@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,7 +15,8 @@ namespace WebPhongKhamNhi.Controllers
         public DonThuocController(QLPhongKhamNhiContext context)
         {
             _context = context;
-        }
+        } 
+
 
         public IActionResult Index(string keyword)
         {
@@ -29,6 +29,64 @@ namespace WebPhongKhamNhi.Controllers
             }
             listdt = listdt.Where(x => x.MaDonThuoc.ToString().Contains(keyword) || x.TenDonThuoc.ToString().Contains(keyword)).ToList();
             return View(listdt);
+        }
+        public IActionResult GetDonThuocTheoHoSo(int id)
+        {
+            var listdonthuoc = _context.Donthuocs.Include(x => x.MaHoSoNavigation).OrderByDescending(x => x.TenDonThuoc).Where(x => x.MaHoSo == id);
+
+            ViewBag.MaHoSo = id;
+            return View(listdonthuoc);
+        }
+
+        [HttpGet]
+        public IActionResult CreateDonThuocTheoHoSo(int id)
+        {
+            var listbs = _context.Bacsis.OrderBy(x => x.HoTen);
+            ViewBag.BacSi = listbs;
+            ViewBag.MaBenhNhan = id;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateDonThuocTheoHoSo(Donthuoc donthuoc)
+        {
+            var hs = new Donthuoc()
+            {
+                TenDonThuoc = donthuoc.TenDonThuoc, 
+                MaHoSo = donthuoc.MaHoSo, 
+                MaDonThuoc = donthuoc.MaDonThuoc
+
+
+            };
+            _context.Donthuocs.Add(hs);
+            _context.SaveChanges();
+            return RedirectToAction("GetDonThuocTheoHoSo", new { id = donthuoc.MaHoSo });
+        }
+        [HttpGet]
+        public IActionResult EditDonThuocTheoHoSo(int id)
+        {
+            var kh = _context.Donthuocs.Find(id);
+            if (kh == null)
+            {
+                return NotFound();
+            }
+            var listbs = _context.Bacsis.OrderBy(x => x.HoTen);
+            ViewBag.BacSi = listbs;
+            return View(kh);
+        }
+        [HttpPost]
+        public IActionResult EditDonThuocTheoHoSo(Donthuoc donthuoc)
+        {
+            var kh = _context.Donthuocs.Find(donthuoc.MaDonThuoc);
+            if (kh == null)
+            {
+                return NotFound();
+            }
+
+            kh.TenDonThuoc = donthuoc.TenDonThuoc;
+
+            _context.SaveChanges();
+            return RedirectToAction("GetDonThuocTheoHoSo", new { id = donthuoc.MaHoSo });
+
         }
         public IActionResult Details(int id)
         {
@@ -195,5 +253,8 @@ namespace WebPhongKhamNhi.Controllers
             return RedirectToAction("Details", new { id = madonthuoc });
         }
     }
-}
+} 
+
+
+
 

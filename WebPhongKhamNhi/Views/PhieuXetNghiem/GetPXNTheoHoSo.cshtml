@@ -1,0 +1,50 @@
+﻿@model IEnumerable<WebPhongKhamNhi.Models.Phieuxetnghiem>
+
+@{
+    ViewData["Title"] = "GetPXNTheoHoSo";
+}
+
+<h1>GetPXNTheoHoSo</h1>
+
+<p>
+    <a asp-action="CreatePXNTheoHoSo" asp-route-id="@ViewBag.MaHoSo">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayThanhToan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TongTien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaHoSoNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayThanhToan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TongTien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaHoSoNavigation.MaHoSo)
+            </td>
+            <td>
+                <a asp-action="EditPXNTheoHoSo" asp-route-id="@item.MaPhieuXetNghiem">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaPhieuXetNghiem">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaPhieuXetNghiem">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table> 
+<p>
+    <a asp-action="Details" asp-controller="HoSoKham" asp-route-id="@ViewBag.MaHoSo">Quay lại hồ sơ</a>
+</p>

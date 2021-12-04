@@ -30,6 +30,68 @@ namespace WebPhongKhamNhi.Controllers
             listpxn = listpxn.Where(x => x.MaPhieuXetNghiem.ToString().Contains(keyword) || x.NgayThanhToan.ToString().Contains(keyword)).ToList();
             return View(listpxn);
         }
+
+        public IActionResult GetPXNTheoHoSo (int id)
+        {
+            var listpxn = _context.Phieuxetnghiems.Include(x => x.MaHoSoNavigation).OrderByDescending(x => x.NgayThanhToan).Where(x => x.MaHoSo == id);
+
+            ViewBag.MaHoSo = id;
+            return View(listpxn);
+        }
+
+        [HttpGet]
+        public IActionResult CreatePXNTheoHoSo (int id)
+        {
+            var listbs = _context.Bacsis.OrderBy(x => x.HoTen);
+            ViewBag.BacSi = listbs;
+            ViewBag.BenhNhan = id;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreatePXNTheoHoSo (Phieuxetnghiem phieuxetnghiem)
+        {
+            var hs = new Phieuxetnghiem()
+            {
+                NgayThanhToan = phieuxetnghiem.NgayThanhToan, 
+                TongTien = phieuxetnghiem.TongTien, 
+                MaPhieuXetNghiem = phieuxetnghiem.MaPhieuXetNghiem, 
+                MaHoSo = phieuxetnghiem.MaHoSo
+
+
+            };
+            _context.Phieuxetnghiems.Add(hs);
+            _context.SaveChanges();
+            return RedirectToAction("GetPXNTheoHoSo", new { id = phieuxetnghiem.MaHoSo });
+        }
+        [HttpGet]
+        public IActionResult EditPXNTheoHoSo (int id)
+        {
+            var kh = _context.Phieuxetnghiems.Find(id);
+            if (kh == null)
+            {
+                return NotFound();
+            }
+            var listbs = _context.Bacsis.OrderBy(x => x.HoTen);
+            ViewBag.BacSi = listbs;
+            return View(kh);
+        }
+        [HttpPost]
+        public IActionResult EditPXNTheoHoSo (Phieuxetnghiem phieuxetnghiem)
+        {
+            var kh = _context.Phieuxetnghiems.Find(phieuxetnghiem.MaHoSo);
+            if (kh == null)
+            {
+                return NotFound();
+            }
+
+            kh.NgayThanhToan = phieuxetnghiem.NgayThanhToan;
+
+            kh.TongTien = phieuxetnghiem.TongTien;           
+
+            _context.SaveChanges();
+            return RedirectToAction("GetPXNTheoHoSo", new { id = phieuxetnghiem.MaHoSo });
+
+        }
         public IActionResult Details(int id)
         {
             var pxn = _context.Phieuxetnghiems.Find(id);
