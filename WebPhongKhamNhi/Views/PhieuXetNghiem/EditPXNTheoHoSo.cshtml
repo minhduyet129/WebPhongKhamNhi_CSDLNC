@@ -1,0 +1,45 @@
+﻿@model WebPhongKhamNhi.Models.Phieuxetnghiem
+
+@{
+    ViewData["Title"] = "EditPXNTheoHoSo";
+}
+
+<h1>EditPXNTheoHoSo</h1>
+
+<h4>Phieuxetnghiem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditPXNTheoHoSo">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MaPhieuXetNghiem" />
+            <div class="form-group">
+                <label asp-for="NgayThanhToan" class="control-label"></label>
+                <input asp-for="NgayThanhToan" class="form-control" />
+                <span asp-validation-for="NgayThanhToan" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TongTien" class="control-label"></label>
+                <input asp-for="TongTien" class="form-control" />
+                <span asp-validation-for="TongTien" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaHoSo" class="control-label"></label>
+                <select asp-for="MaHoSo" class="form-control" asp-items="ViewBag.MaHoSo"></select>
+                <span asp-validation-for="MaHoSo" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="MaHoSo" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="GetPXNTheoHoSo" asp-route-id="@Model.MaHoSo">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
