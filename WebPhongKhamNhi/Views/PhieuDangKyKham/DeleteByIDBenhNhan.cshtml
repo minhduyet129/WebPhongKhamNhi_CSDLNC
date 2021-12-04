@@ -1,0 +1,45 @@
+﻿@model WebPhongKhamNhi.Models.Phieudangkykham
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Xoá thông tin phiếu đăng kí</h1>
+
+<h3>Bạn chắc chắn muốn xoá phiếu này?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NgayDangKy)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NgayDangKy)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TongTien)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TongTien)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MaBenhNhanNavigation.HoTen)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MaBenhNhanNavigation.HoTen)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MaDichVuNavigation.TenDichVu)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MaDichVuNavigation.TenDichVu)
+        </dd>
+    </dl>
+
+    <form action="@Url.Action("DeleteByIDBenhNhan", "PhieuDangKyKham")" method="POST">
+        @Html.AntiForgeryToken()
+        <input name="maPhieu" type="hidden" value="@Model.MaPhieuDangKy" />
+        <input type="submit" value="Xoá" class="btn btn-danger" /> |
+        <a href="@Url.Action("GetByIDBenhNhan", "PhieuDangKyKham", new {id=Model.MaBenhNhan})">Trở lại</a>
+    </form>
+</div>

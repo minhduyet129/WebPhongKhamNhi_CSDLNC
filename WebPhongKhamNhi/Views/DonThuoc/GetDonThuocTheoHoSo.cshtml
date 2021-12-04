@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<WebPhongKhamNhi.Models.Donthuoc>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "GetDonThuocTheoHoSo";
     int i = 1;
 }
-<h1>Đơn Thuốc</h1> 
+<h1>Đơn Thuốc</h1>
 <hr />
 <h4>Tìm kiếm theo mã đơn thuốc và tên đơn thuốc</h4>
-<form asp-action="Index" method="post">
-    <input type="text" name="keyword" />
+<form asp-action="GetDonThuocTheoHoSo" method="post">
+    <input type="text" name="keyword" /> 
+    <input type="hidden" name="id" value="@ViewBag.MaHoSo" />  
     <button type="submit">Tìm kiếm</button>
 </form>
 <br />
@@ -76,9 +77,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="form_data" asp-action="Create"> 
-                    <label>Tên đơn thuốc</label> 
-                    <input type="text" name="tendonthuoc" />
+                <form id="form_data" asp-action="CreateDonThuocTheoHoSo">
+                    <label>Tên đơn thuốc</label>
+                    <input type="text" name="tendonthuoc" /> 
+                    <input type="hidden" name="mahoso" value="@ViewBag.MaHoSo"/> 
 
                     <table class="table table-striped" id="tblChiTietDonThuoc">
 
@@ -95,7 +97,7 @@
                                 <input type="number" class="txtSoLuong form-control" min="0" value="0" />
                             </td>
                             <td>
-                                <textarea type="text" class="txtHuongDanSuDung form-control"  ></textarea>
+                                <textarea type="text" class="txtHuongDanSuDung form-control"></textarea>
                             </td>
                             <td><span class="btnDelete btn btn-danger">-</span></td>
                         </tr>

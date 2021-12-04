@@ -10,32 +10,43 @@
     <h4>Hosokham</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.TrieuChung)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TrieuChung)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ChuanDoan)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ChuanDoan)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.NgayTao)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NgayTao)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             Họ tên bác sĩ
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MaBacSiNavigation.HoTen)
         </dd>
-        
+
     </dl>
+</div>
+<div style="display: flex">
+    <form style="margin-right:20px" action="/DonThuoc/GetDonThuocTheoHoSo" method="get">
+        <input type="hidden" name="id" value="@Model.MaHoSo" />
+        <button type="submit" class="btn btn-primary">Danh sách đơn thuốc</button>
+    </form>
+
+    <form action="/PhieuXetNghiem/GetPXNTheoHoSo" method="get">
+        <input type="hidden" name="id" value="@Model.MaHoSo" />
+        <button type="submit" class="btn btn-primary">Danh sách phiếu xét nghiệm</button>
+    </form>
 </div>
 <div>
     <a asp-action="EditHoSoTheoBenhNhan" asp-route-id="@Model.MaHoSo">Edit</a> |

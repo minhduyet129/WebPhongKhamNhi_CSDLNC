@@ -1,0 +1,33 @@
+﻿@model WebPhongKhamNhi.Models.Dichvukham
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Xoá dịch vụ khám</h1>
+
+<h3>Bạn chắc chắn muốn xoá dịch vụ này ??</h3>
+<div>
+    <h4>Dichvukham</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TenDichVu)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TenDichVu)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ChiPhi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ChiPhi)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="MaDichVu" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Trở lại</a>
+    </form>
+</div>
