@@ -18,76 +18,21 @@ namespace WebPhongKhamNhi.Controllers
         } 
 
 
-        public IActionResult Index(string keyword)
+      
+        public IActionResult GetDonThuocTheoHoSo(int id, string keyword)
         {
-            var listdt = _context.Donthuocs.OrderByDescending(x => x.TenDonThuoc).ToList();
+            var listdonthuoc = _context.Donthuocs.Include(x => x.MaHoSoNavigation).OrderByDescending(x => x.TenDonThuoc).Where(x => x.MaHoSo == id).ToList();
+
+            ViewBag.MaHoSo = id;
             var listthuoc = _context.Thuocs.OrderBy(x => x.Ten);
             ViewBag.Thuoc = listthuoc;
             if (String.IsNullOrEmpty(keyword))
             {
-                return View(listdt);
+                return View(listdonthuoc);
             }
-            listdt = listdt.Where(x => x.MaDonThuoc.ToString().Contains(keyword) || x.TenDonThuoc.ToString().Contains(keyword)).ToList();
-            return View(listdt);
-        }
-        public IActionResult GetDonThuocTheoHoSo(int id)
-        {
-            var listdonthuoc = _context.Donthuocs.Include(x => x.MaHoSoNavigation).OrderByDescending(x => x.TenDonThuoc).Where(x => x.MaHoSo == id);
-
-            ViewBag.MaHoSo = id;
+            listdonthuoc = listdonthuoc.Where(x => x.MaDonThuoc.ToString().Contains(keyword) || x.TenDonThuoc.ToLower().Contains(keyword)).ToList();
             return View(listdonthuoc);
-        }
-
-        [HttpGet]
-        public IActionResult CreateDonThuocTheoHoSo(int id)
-        {
-            var listbs = _context.Bacsis.OrderBy(x => x.HoTen);
-            ViewBag.BacSi = listbs;
-            ViewBag.MaBenhNhan = id;
-            return View();
-        }
-        [HttpPost]
-        public IActionResult CreateDonThuocTheoHoSo(Donthuoc donthuoc)
-        {
-            var hs = new Donthuoc()
-            {
-                TenDonThuoc = donthuoc.TenDonThuoc, 
-                MaHoSo = donthuoc.MaHoSo, 
-                MaDonThuoc = donthuoc.MaDonThuoc
-
-
-            };
-            _context.Donthuocs.Add(hs);
-            _context.SaveChanges();
-            return RedirectToAction("GetDonThuocTheoHoSo", new { id = donthuoc.MaHoSo });
-        }
-        [HttpGet]
-        public IActionResult EditDonThuocTheoHoSo(int id)
-        {
-            var kh = _context.Donthuocs.Find(id);
-            if (kh == null)
-            {
-                return NotFound();
-            }
-            var listbs = _context.Bacsis.OrderBy(x => x.HoTen);
-            ViewBag.BacSi = listbs;
-            return View(kh);
-        }
-        [HttpPost]
-        public IActionResult EditDonThuocTheoHoSo(Donthuoc donthuoc)
-        {
-            var kh = _context.Donthuocs.Find(donthuoc.MaDonThuoc);
-            if (kh == null)
-            {
-                return NotFound();
-            }
-
-            kh.TenDonThuoc = donthuoc.TenDonThuoc;
-
-            _context.SaveChanges();
-            return RedirectToAction("GetDonThuocTheoHoSo", new { id = donthuoc.MaHoSo });
-
-        }
+        }        
         public IActionResult Details(int id)
         {
             var dt = _context.Donthuocs.Find(id);
@@ -99,10 +44,11 @@ namespace WebPhongKhamNhi.Controllers
             return View(dt);
         }
         [HttpPost]
-        public IActionResult Create(List<Chitietdonthuoc> chitietdonthuoc, string tendonthuoc)
-        {
-            var kh = new Donthuoc()
-            {
+        public IActionResult CreateDonThuocTheoHoSo(List<Chitietdonthuoc> chitietdonthuoc, string tendonthuoc, int mahoso)
+        { 
+              var kh = new Donthuoc()
+            { 
+                  MaHoSo = mahoso,
                 TenDonThuoc = tendonthuoc
             }
             ;
@@ -129,21 +75,22 @@ namespace WebPhongKhamNhi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int id )
         {
             var kh = _context.Donthuocs.Find(id);
-            if (kh == null)
+            
+            if (kh == null )
             {
                 return NotFound();
             }
             return View(kh);
         }
 
-        [HttpPost]
-        public IActionResult DeletePost(int MaDonThuoc)
+        [HttpPost]         
+        public IActionResult DeletePost(int MaDonThuoc, int mahoso)
         {
             var kh = _context.Donthuocs.Find(MaDonThuoc);
-
+            
             if (kh == null)
             {
                 return NotFound();
@@ -152,7 +99,7 @@ namespace WebPhongKhamNhi.Controllers
             _context.Chitietdonthuocs.RemoveRange(listctdt);
             _context.Donthuocs.Remove(kh);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("GetDonThuocTheoHoSo",new { id= mahoso});
         }
 
         [HttpGet]
