@@ -1,38 +1,37 @@
-﻿@model WebPhongKhamNhi.Models.Chitiethoadonthuoc
+﻿@model WebPhongKhamNhi.Models.Chitietdonthuoc
 
 @{
-    ViewData["Title"] = "CreateCTHDT";
+    ViewData["Title"] = "CreateCTDT";
 }
 
-<h1>Thêm chi tiết</h1>
+<h1>Thêm chi tiết đơn thuốc</h1>
 
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateCTHDT">
+        <form asp-action="CreateCTDT">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <input type="hidden" name="MaHoaDonThuoc" value="@ViewBag.MaHoaDonThuoc" />
-                
+                <input type="hidden" name="MaDonThuoc" value="@ViewBag.MaDonThuoc" />
+
             </div>
             <div class="form-group">
                 <label class="control-label">Tên thuốc</label>
                 @Html.DropDownList("MaThuoc", new SelectList(ViewBag.Thuoc, "MaThuoc", "Ten"), String.Empty, new { @Class = "form-control" })
             </div>
             <div class="form-group">
-                <label asp-for="SoLuong" class="control-label"></label>
-                <input asp-for="SoLuong" class="form-control"  min="1" value="1" />
+                <label asp-for="SoLuong" class="control-label">Số lượng</label>
+                <input asp-for="SoLuong" class="form-control" />
                 <span asp-validation-for="SoLuong" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Gia" class="control-label"></label>
-                <input asp-for="Gia" class="form-control" min="1"/>
-                <span asp-validation-for="Gia" class="text-danger"></span>
+                <label asp-for="HuongDanSuDung" class="control-label">Hướng dẫn sử dụng</label>
+                <textarea asp-for="HuongDanSuDung" class="form-control" ></textarea>
+                <span asp-validation-for="HuongDanSuDung" class="text-danger"></span>
             </div>
-            
             <div class="form-group">
-                <input type="submit" value="Thêm" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
