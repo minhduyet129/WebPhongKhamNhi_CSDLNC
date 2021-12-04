@@ -1,0 +1,46 @@
+﻿@model WebPhongKhamNhi.Models.Donthuoc
+
+@{
+    ViewData["Title"] = "CreateDonThuocTheoHoSo";
+}
+
+<h1>CreateDonThuocTheoHoSo</h1>
+
+<h4>Donthuoc</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateDonThuocTheoHoSo">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MaHoSo" class="control-label"></label>
+                <select asp-for="MaHoSo" class="form-control" asp-items="ViewBag.MaHoSo"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenDonThuoc" class="control-label"></label>
+                <input asp-for="TenDonThuoc" class="form-control" />
+                <span asp-validation-for="TenDonThuoc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tên bác sĩ</label><br />
+
+                @Html.DropDownList("MaBacSi", new SelectList(ViewBag.BacSi, "MaBacSi", "HoTen"), String.Empty, new { @Class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="MaHoSo" value="@ViewBag.MaHoSo" />
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="GetDonThuocTheoHoSo" asp-route-id="@ViewBag.MaHoSo">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
