@@ -13,7 +13,8 @@ namespace WebPhongKhamNhi.Models
         }
 
         public int MaDonThuoc { get; set; }
-        public int? MaHoSo { get; set; }
+        public int? MaHoSo { get; set; } 
+        
         public string TenDonThuoc { get; set; }
 
         public virtual Hosokham MaHoSoNavigation { get; set; }

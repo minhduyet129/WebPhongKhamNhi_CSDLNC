@@ -11,29 +11,31 @@
     <h4>Phieuxetnghiem</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.NgayThanhToan)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NgayThanhToan)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.TongTien)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TongTien)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.MaHoSoNavigation)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MaHoSoNavigation.MaHoSo)
-        </dd class>
+        </dd>
     </dl>
-    
+
     <form asp-action="DeletePost">
+        <input type="hidden" name="mahoso" value="@Model.MaHoSo" />
         <input type="hidden" asp-for="MaPhieuXetNghiem" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+
     </form>
+    <a asp-action="GetPXNTheoHoSo" asp-route-id="@Model.MaHoSo">Back to List</a>
 </div>

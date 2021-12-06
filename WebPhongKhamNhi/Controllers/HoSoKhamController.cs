@@ -100,38 +100,27 @@ namespace WebPhongKhamNhi.Controllers
 
         public IActionResult Index()
         {
-            var listhsk = _context.Hosokhams.Include(x => x.MaBacSiNavigation).OrderByDescending(x => x.NgayTao);
+            var listhsk = _context.Hosokhams.Include(x => x.MaBacSiNavigation).Include(x=>x.MaBenhNhanNavigation).OrderByDescending(x => x.NgayTao);
 
             return View(listhsk);
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            var listbs = _context.Bacsis.OrderBy(x => x.HoTen);
-            ViewBag.BacSi = listbs;
-            return View();
-        }
 
-        [HttpPost]
-        public IActionResult Create(Hosokham hoso)
+        public IActionResult DetailsHoSo(int id)
         {
-            var hs = new Hosokham()
+            var hosokham = _context.Hosokhams.Include(x => x.MaBacSiNavigation).FirstOrDefault(x => x.MaHoSo == id);
+            if (hosokham == null)
             {
-                TrieuChung=hoso.TrieuChung,
-                NgayTao=hoso.NgayTao,
-                MaBacSi=hoso.MaBacSi,
-                MaBenhNhan=hoso.MaBenhNhan
-
-            };
-            _context.Hosokhams.Add(hs);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+                return NotFound();
+            }
+            return View(hosokham);
         }
+
+
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var kh = _context.Hosokhams.Find(id);
+            var kh = _context.Hosokhams.Include(x=>x.MaBenhNhanNavigation).FirstOrDefault(x=>x.MaHoSo==id);
             if (kh == null)
             {
                 return NotFound();
@@ -150,7 +139,7 @@ namespace WebPhongKhamNhi.Controllers
             }
 
             kh.TrieuChung = hoso.TrieuChung;
-            kh.MaBenhNhan = hoso.MaBenhNhan;
+
             kh.MaBacSi = hoso.MaBacSi;
             kh.NgayTao = hoso.NgayTao;
             kh.ChuanDoan = hoso.ChuanDoan;

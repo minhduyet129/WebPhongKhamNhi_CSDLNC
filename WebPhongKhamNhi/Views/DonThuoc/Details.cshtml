@@ -65,10 +65,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Quay lại</a>  
-    <br />
-    <form action="/DonThuoc/GetDonThuocTheoHoSo" method="get">
-        <input type="hidden" name="id" value="@Model.MaHoSo" />
-        <button type="submit" class="btn btn-primary">Danh sách đơn thuốc</button>
-    </form>
-</div>
+    <a asp-action="GetDonThuocTheoHoSo" asp-route-id="@Model.MaHoSo">Quay lại</a>  
+    
+    </div>
