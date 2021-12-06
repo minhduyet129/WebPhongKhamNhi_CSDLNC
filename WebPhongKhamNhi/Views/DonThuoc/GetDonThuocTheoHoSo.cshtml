@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<WebPhongKhamNhi.Models.Donthuoc>
 
 @{
-    ViewData["Title"] = "GetDonThuocTheoHoSo";
+    ViewData["Title"] = "Đơn thuốc";
     int i = 1;
 }
-<h1>Đơn Thuốc</h1>
+<h1>Danh sách đơn thuốc</h1>
 <hr />
 <h4>Tìm kiếm theo mã đơn thuốc và tên đơn thuốc</h4>
 <form asp-action="GetDonThuocTheoHoSo" method="post">
@@ -63,7 +63,12 @@
         }
     </tbody>
 </table>
-
+<div>
+    <form action="/HoSoKham/Details" method="get">
+        <input type="hidden" name="id" value="@ViewBag.MaHoSo" />
+        <button type="submit" class="btn btn-primary">Quay lại chi tiết hồ sơ khám</button>
+    </form>
+</div>
 
 
 <!-- Modal -->

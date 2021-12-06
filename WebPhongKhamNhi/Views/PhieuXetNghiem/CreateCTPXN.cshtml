@@ -1,12 +1,12 @@
 ﻿@model WebPhongKhamNhi.Models.Chitietphieuxetnghiem
 
 @{
-    ViewData["Title"] = "CreateCTPXN";
+    ViewData["Title"] = "Thêm xét nghiệm";
 }
 
-<h1>CreateCTPXN</h1>
+<h1>Thêm xét nghiệm</h1>
 
-<h4>Chitietphieuxetnghiem</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -21,19 +21,19 @@
                 @Html.DropDownList("MaXetNghiem", new SelectList(ViewBag.Dichvuxetnghiem, "MaXetNghiem", "TenXetNghiem"), String.Empty, new { @Class = "form-control" })
             </div>
             <div class="form-group">
-                <label asp-for="ChiPhi" class="control-label"></label>
+                <label asp-for="ChiPhi" class="control-label">Chi phí</label>
                 <input asp-for="ChiPhi" class="form-control" />
                 <span asp-validation-for="ChiPhi" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Thêm" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-route-id="@ViewBag.MaPhieuXetNghiem">Quay lại chi tiết phiếu xét nghiệm</a>
 </div>
 
 @section Scripts {

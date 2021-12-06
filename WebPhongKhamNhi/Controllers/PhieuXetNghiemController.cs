@@ -182,7 +182,7 @@ namespace WebPhongKhamNhi.Controllers
             var old = _context.Chitietphieuxetnghiems.FirstOrDefault(x => x.MaPhieuXetNghiem == chitietphieuxetnghiem.MaPhieuXetNghiem && x.MaXetNghiem == chitietphieuxetnghiem.MaXetNghiem);
             if (old != null)
             {
-                old.ChiPhi = old.ChiPhi + chitietphieuxetnghiem.ChiPhi;                
+                old.ChiPhi =  chitietphieuxetnghiem.ChiPhi;                
                 _context.SaveChanges();
                 var hdtold = _context.Phieuxetnghiems.FirstOrDefault(x => x.MaPhieuXetNghiem == chitietphieuxetnghiem.MaPhieuXetNghiem);
                 if (hdtold == null)
@@ -230,10 +230,12 @@ namespace WebPhongKhamNhi.Controllers
             var ctpxn = _context.Chitietphieuxetnghiems.FirstOrDefault(x => x.MaXetNghiem == chitietphieuxetnghiem.MaXetNghiem && x.MaPhieuXetNghiem == chitietphieuxetnghiem.MaPhieuXetNghiem);
             if (ctpxn == null)
             {
-                return NotFound();
-            }
-            ctpxn.ChiPhi = chitietphieuxetnghiem.ChiPhi;
+                return NotFound(); 
+            } 
+            
+            ctpxn.ChiPhi = chitietphieuxetnghiem.ChiPhi;            
             _context.SaveChanges();
+            
             var tongtien = _context.Chitietphieuxetnghiems.Where(x => x.MaPhieuXetNghiem == chitietphieuxetnghiem.MaPhieuXetNghiem).Sum(x => x.ChiPhi);
             var pxn = _context.Phieuxetnghiems.FirstOrDefault(x => x.MaPhieuXetNghiem == chitietphieuxetnghiem.MaPhieuXetNghiem);
             if (pxn == null)
