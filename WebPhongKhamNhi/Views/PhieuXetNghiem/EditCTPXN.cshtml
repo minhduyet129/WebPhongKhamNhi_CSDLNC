@@ -1,12 +1,12 @@
 ﻿@model WebPhongKhamNhi.Models.Chitietphieuxetnghiem
 
 @{
-    ViewData["Title"] = "EditCTPXN";
+    ViewData["Title"] = "Sửa";
 }
 
-<h1>EditCTPXN</h1>
 
-<h4>Chitietphieuxetnghiem</h4>
+
+<h4>Sửa chi tiết phiếu xét nghiệm</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,19 +15,19 @@
             <input type="hidden" asp-for="MaXetNghiem" />
             <input type="hidden" asp-for="MaPhieuXetNghiem" />
             <div class="form-group">
-                <label asp-for="ChiPhi" class="control-label"></label>
+                <label asp-for="ChiPhi" class="control-label">Chi Phí</label>
                 <input asp-for="ChiPhi" class="form-control" />
                 <span asp-validation-for="ChiPhi" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Lưu" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-route-id="@Model.MaPhieuXetNghiem">Quay lại chi tiết phiếu xét nghiệm</a>
 </div>
 
 @section Scripts {

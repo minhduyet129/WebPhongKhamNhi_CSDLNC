@@ -1,7 +1,7 @@
 ﻿@model WebPhongKhamNhi.Models.Chitietdonthuoc
 
 @{
-    ViewData["Title"] = "EditCTDT";
+    ViewData["Title"] = "Sửa chi tiết đơn thuốc";
 }
 
 <h1>Sửa chi tiết đơn thuốc</h1>
@@ -24,14 +24,14 @@
                 <span asp-validation-for="HuongDanSuDung" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Lưu" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-route-id="@Model.MaDonThuoc">Quay lại chi tiết đơn thuốc</a>
 </div>
 
 @section Scripts {
