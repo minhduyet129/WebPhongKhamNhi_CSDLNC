@@ -2,16 +2,18 @@
 
 @{
     ViewData["Title"] = "Index";
+    var i = 1;
 }
 
-<h1>Index</h1>
+<h1>Danh sách khoa</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Thêm mới khoa</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>STT</th>
             <th>
                 @Html.DisplayNameFor(model => model.TenKhoa)
             </th>
@@ -22,12 +24,15 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @(i++)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.TenKhoa)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.MaKhoa">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaKhoa">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaKhoa">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.MaKhoa">Cập nhật</a> |
+               
+                <a asp-action="Delete" asp-route-id="@item.MaKhoa">Xóa</a>
             </td>
         </tr>
 }
