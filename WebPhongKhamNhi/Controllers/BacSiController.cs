@@ -108,6 +108,12 @@ namespace WebPhongKhamNhi.Controllers
             {
                 return NotFound();
             }
+            var listhS = _context.Hosokhams.Where(x => x.MaBacSi == MaBacSi);
+            foreach (var hs in listhS)
+            {
+                hs.MaBacSi = null;
+
+            }
             _context.Bacsis.Remove(kh);
             _context.SaveChanges();
             return RedirectToAction("Index");
