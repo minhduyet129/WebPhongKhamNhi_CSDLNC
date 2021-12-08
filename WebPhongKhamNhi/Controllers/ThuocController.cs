@@ -17,10 +17,14 @@ namespace WebPhongKhamNhi.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string keyword)
         {
-            var listthuoc = _context.Thuocs.Include(x=>x.MaNhaSanXuatNavigation).OrderBy(x => x.Ten);
-
+            var listthuoc = _context.Thuocs.Include(x=>x.MaNhaSanXuatNavigation).OrderBy(x => x.Ten).ToList();
+            if (String.IsNullOrEmpty(keyword))
+            {
+                return View(listthuoc);
+            }
+            listthuoc = listthuoc.Where(x => x.Ten.ToLower().Contains(keyword.ToLower())).ToList();
             return View(listthuoc);
         }
 

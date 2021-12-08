@@ -24,11 +24,14 @@
             <input id="mansx" type="hidden" data-mansx="@phieuNhap.MaNhaSanXuat" />
             @Html.DropDownList("MaNhaSanXuat",
                 new SelectList(listNsx, "MaNhaSanXuat", "TenNhaSanXuat"),
-                "--Chọn nhà sản xuất--");
+                "--Chọn nhà sản xuất--", new { @class = "form-control" })
         </div>
     </div>
 </div>
+<hr />
+<h4>Danh sách thuốc</h4>
 <div class="row">
+
     <div class="col-md-9">
         <table class="myTable" id="tableEditPhieuNhap">
             <thead>
@@ -54,7 +57,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DropDownList("TenThuoc", new SelectList(listThuoc, "MaThuoc", "Ten"), new { @class = "tenThuoc" })
+                            @Html.DropDownList("TenThuoc", new SelectList(listThuoc, "MaThuoc", "Ten"), new { @class = "tenThuoc form-control" })
                             <input type="hidden" class="hiddenTenThuoc" value="@ct.MaThuoc" />
                         </td>
                         <td>
@@ -63,7 +66,9 @@
                         <td>
                             <input id="SoLuong" name="SoLuong" class="form-control soluong" value="@ct.SoLuong" />
                         </td>
-                        <td class="thanhTien">@ct.ThanhTien</td>
+                        <td>
+                            <input type="text" class="thanhTien form-control" value="@ct.ThanhTien" readonly />
+                        </td>
                         <td>
                             <button type="button" class="btn btn-outline-danger deleteCt">-</button>
                         </td>
@@ -141,7 +146,7 @@
                     chiTiet.GiaThuoc = $(trElement).find(".giathuoc").val();
                     chiTiet.SoLuong = $(trElement).find('.soluong').val();
 
-                    var thanhTien = $(trElement).find('.thanhTien').html();
+                    var thanhTien = $(trElement).find('.thanhTien').val();
                     chiTiet.ThanhTien = thanhTien;
 
                     chiTietPhieus.push(chiTiet);
@@ -162,12 +167,14 @@
                     },
                     dataType: "json",
                 }).done(function (response) {
-                    alert('successed')
                     if (response.status == true) {
                         window.location.href = response.redirectToUrl;
                     }
+                    else {
+                        alert(response.responseText)
+                    }
                 }).fail(function (response) {
-                    console.log(response.responseText)
+                    alert(response.responseText)
                 });
             });
 
@@ -185,7 +192,7 @@
                 var giaThuocVal = $(this).val();
                 var giaThuoc = parseFloat(giaThuocVal) || 0;
 
-                $(this).closest('tr').find('.thanhTien').html(soLuong * giaThuoc);
+                $(this).closest('tr').find('.thanhTien').val(soLuong * giaThuoc);
             })
 
             $('#tableEditPhieuNhap').on('input', '.soluong', function () {
@@ -197,7 +204,7 @@
                 var soLuongVal = $(this).val();
                 var soLuong = parseFloat(soLuongVal) || 0;
 
-                $(this).closest('tr').find('.thanhTien').html(soLuong * giaThuoc);
+                $(this).closest('tr').find('.thanhTien').val(soLuong * giaThuoc);
             })
     })
     </script>

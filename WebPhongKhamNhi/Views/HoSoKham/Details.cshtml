@@ -4,10 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Chi tiết hồ sơ khám</h1>
 
 <div>
-    <h4>Hosokham</h4>
+    
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -49,6 +49,6 @@
     </form>
 </div>
 <div>
-    <a asp-action="EditHoSoTheoBenhNhan" asp-route-id="@Model.MaHoSo">Edit</a> |
-    <a asp-action="GetHoSoTheoBenhNhan" asp-route-id="@Model.MaBenhNhan">Back to List</a>
+    <a asp-action="EditHoSoTheoBenhNhan" asp-route-id="@Model.MaHoSo">Cập nhật</a> |
+    <a asp-action="GetHoSoTheoBenhNhan" asp-route-id="@Model.MaBenhNhan">Quay lại danh sách hồ sơ</a>
 </div>

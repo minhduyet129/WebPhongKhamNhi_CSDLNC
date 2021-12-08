@@ -23,31 +23,63 @@ namespace WebPhongKhamNhi.Controllers
             return View(listNsx);
         }
 
+        [HttpPost]
+        public IActionResult Index(string textSearch)
+        {
+            if (string.IsNullOrEmpty(textSearch) || string.IsNullOrWhiteSpace(textSearch))
+                return RedirectToAction(nameof(Index));
+
+            string textSearchFormat = textSearch.Trim().ToLower();
+            var listNsx = _context.Nhasanxuats.Where(
+                n => n.TenNhaSanXuat.ToLower().Contains(textSearchFormat)
+                || n.DiaChi.ToLower().Contains(textSearchFormat)
+                || n.SoDienThoai.Contains(textSearchFormat)
+            ).OrderBy(n => n.TenNhaSanXuat);
+
+            return View(listNsx);
+        }
+
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        private ViewResult NsxCheckDupplicateName(Nhasanxuat nsx)
+        {
+            //kiểm tra trùng tên
+            ViewData["DupplicateNameErrorMessage"] = null;
+            var nsxSameName = _context.Nhasanxuats.Where(n => n.TenNhaSanXuat == nsx.TenNhaSanXuat);
+            if (nsxSameName.Count() > 0)
+            {
+                ViewData["DupplicateNameErrorMessage"] = "Tên nhà sản xuất đã tồn tại.";
+                return View(nsx);
+            }
+            return null;
+        }
+
         [HttpPost]
         public IActionResult Create(Nhasanxuat nsx)
         {
+            //kiểm tra trùng tên
+            ViewResult viewAfterValidate = NsxCheckDupplicateName(nsx);
+            if (viewAfterValidate != null)
+                return viewAfterValidate;
+
             _context.Add(nsx);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-        
+
         [HttpGet]
         public IActionResult Edit(int id)
         {
             Nhasanxuat nsx = _context.Nhasanxuats.Find(id);
-            if(nsx == null)
+            if (nsx == null)
             {
                 return NotFound();
             }
-
-            var listNsx = _context.Nhasanxuats.OrderBy(n => n.TenNhaSanXuat);
-            ViewBag.nsx = listNsx;
+            
             return View(nsx);
         }
 
@@ -55,9 +87,19 @@ namespace WebPhongKhamNhi.Controllers
         public IActionResult Edit(int id, Nhasanxuat nsx)
         {
             var nsxUpdate = _context.Nhasanxuats.Find(id);
-            if(nsxUpdate == null)
+            if (nsxUpdate == null)
             {
                 return NotFound();
+            }
+
+            //kiểm tra trùng tên nsx
+            var nsxNameDupplicate = _context.Nhasanxuats
+                                            .Where(n => n.MaNhaSanXuat != id && n.TenNhaSanXuat == nsx.TenNhaSanXuat)
+                                            .FirstOrDefault();
+            if (nsxNameDupplicate != null) 
+            {
+                ViewData["DupplicateNameErrorMessage"] = "Tên nhà sản xuất đã tồn tại.";
+                return View(nsxUpdate); 
             }
 
             nsxUpdate.TenNhaSanXuat = nsx.TenNhaSanXuat;
@@ -66,7 +108,7 @@ namespace WebPhongKhamNhi.Controllers
 
             _context.Nhasanxuats.Update(nsxUpdate);
             _context.SaveChanges();
-            
+
             return RedirectToAction("Index");
         }
 
@@ -79,7 +121,7 @@ namespace WebPhongKhamNhi.Controllers
             {
                 return NotFound();
             }
-                        
+
             return View(nsx);
         }
 

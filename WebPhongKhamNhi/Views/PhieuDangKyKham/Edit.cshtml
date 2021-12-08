@@ -12,20 +12,21 @@
         <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input name="id" type="hidden" asp-for="MaPhieuDangKy" />
+            
             <div class="form-group">
                 <label asp-for="NgayDangKy" class="control-label"></label>
-                <input asp-for="NgayDangKy" class="form-control" value="@Model.NgayDangKy.GetValueOrDefault().ToString("yyyy-MM-ddTHH:mm:ss")"/>
+                <input asp-for="NgayDangKy" class="form-control" value="@Model.NgayDangKy.GetValueOrDefault().ToString("yyyy-MM-ddTHH:mm:ss")" />
                 <span asp-validation-for="NgayDangKy" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MaBenhNhan" class="control-label"></label>
-                <select asp-for="MaBenhNhan" class="form-control" 
+                <label asp-for="MaBenhNhan" class="control-label">Tên bệnh nhân</label>
+                <select asp-for="MaBenhNhan" class="form-control"
                         asp-items="@(new SelectList(ViewBag.MaBenhNhan, nameof(Benhnhan.MaBenhNhan), nameof(Benhnhan.HoTen)))"></select>
                 <span asp-validation-for="MaBenhNhan" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="MaDichVu" class="control-label"></label>
-                <select asp-for="MaDichVu" class="form-control" 
+                <select asp-for="MaDichVu" class="form-control"
                         asp-items="@(new SelectList(ViewBag.MaDichVu, nameof(Dichvukham.MaDichVu), nameof(Dichvukham.TenDichVu)))"></select>
                 <span asp-validation-for="MaDichVu" class="text-danger"></span>
             </div>
@@ -42,7 +43,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Trở lại</a>
+    <a asp-action="Index">Quay lại</a>
 </div>
 
 @section Scripts {

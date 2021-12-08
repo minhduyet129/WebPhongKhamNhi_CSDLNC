@@ -1,0 +1,42 @@
+﻿
+@model WebPhongKhamNhi.Models.Hosokham
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Xóa</h1>
+
+<h3>Bạn có chắc muốn xóa hồ sơ khám này không?</h3>
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TrieuChung)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TrieuChung)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ChuanDoan)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ChuanDoan)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NgayTao)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NgayTao)
+        </dd>
+
+    </dl>
+
+    <form asp-action="DeletePostTheoBenhNhan">
+        <input type="hidden" asp-for="MaHoSo" />
+        <input type="hidden" name="MaBenhNhan" value="@ViewBag.MaBenhNhan" />
+        <input type="submit" value="Xóa" class="btn btn-danger" /> |
+        <a asp-action="Index">Danh sách hồ sơ khám</a>
+    </form>
+</div>

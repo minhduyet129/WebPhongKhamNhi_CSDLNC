@@ -36,7 +36,7 @@ namespace WebPhongKhamNhi.Controllers
                 return View();
 
             string txtFormat = textSearch.Trim().ToLower();
-            var resultSearch = _context.Dichvukhams.Where(dv => dv.TenDichVu.Contains(txtFormat));
+            var resultSearch = _context.Dichvukhams.Where(dv => dv.TenDichVu.ToLower().Contains(txtFormat));
             return View(resultSearch);
         }
 
@@ -62,6 +62,14 @@ namespace WebPhongKhamNhi.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    //kiểm tra trùng tên
+                    var dvSameName = _context.Dichvukhams.Where(dv => dv.TenDichVu == dichvukham.TenDichVu).FirstOrDefault();
+                    if(dvSameName != null)
+                    {
+                        ViewData["DichVuDuplicateName"] = "Tên dịch vụ đã tồn tại, vui lòng nhập tên khác.";
+                        return View(dichvukham);
+                    }
+
                     _context.Add(dichvukham);
                     _context.SaveChanges();
                     return RedirectToAction("Index");
@@ -93,7 +101,19 @@ namespace WebPhongKhamNhi.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    
+
                     Dichvukham dvUpdate = _context.Dichvukhams.Find(id);
+                    if (dvUpdate == null) return NotFound();
+
+                    //kiểm tra trùng tên
+                    var dvSameName = _context.Dichvukhams.Where(dv => dv.TenDichVu == dichvukham.TenDichVu).FirstOrDefault();
+                    if (dvSameName != null)
+                    {
+                        ViewData["DichVuDuplicateName"] = "Tên dịch vụ đã tồn tại, vui lòng nhập tên khác.";
+                        return View(dvUpdate);
+                    }
+
                     dvUpdate.TenDichVu = dichvukham.TenDichVu;
                     dvUpdate.ChiPhi = dichvukham.ChiPhi;
 

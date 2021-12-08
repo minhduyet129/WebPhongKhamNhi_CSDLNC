@@ -92,7 +92,41 @@ namespace WebPhongKhamNhi.Controllers
             }
             return View(hosokham);
         }
+        [HttpGet]
+        public IActionResult DeleteTheoBenhNhan(int id,int idbn)
+        {
+            var kh = _context.Hosokhams.Find(id);
+            if (kh == null)
+            {
+                return NotFound();
+            }
+            ViewBag.MaBenhNhan = idbn;
+            return View(kh);
+        }
 
+        [HttpPost]
+        public IActionResult DeletePostTheoBenhNhan(int MaHoSo,int MaBenhNhan)
+        {
+            var kh = _context.Hosokhams.Find(MaHoSo);
+            if (kh == null)
+            {
+                return NotFound();
+            }
+            var listdt = _context.Donthuocs.Where(x => x.MaHoSo == MaHoSo);
+            foreach (var dt in listdt)
+            {
+                dt.MaHoSo = null;
+            }
+            var listpxn = _context.Phieuxetnghiems.Where(x => x.MaHoSo == MaHoSo);
+            foreach (var dt in listpxn)
+            {
+                dt.MaHoSo = null;
+            }
+
+            _context.Hosokhams.Remove(kh);
+            _context.SaveChanges();
+            return RedirectToAction("GetHoSoTheoBenhNhan",new { id=MaBenhNhan});
+        }
 
 
         //CRUD cũ
@@ -167,6 +201,17 @@ namespace WebPhongKhamNhi.Controllers
             {
                 return NotFound();
             }
+            var listdt = _context.Donthuocs.Where(x => x.MaHoSo == MaHoSo);
+            foreach(var dt in listdt)
+            {
+                dt.MaHoSo = null;
+            }
+            var listpxn = _context.Phieuxetnghiems.Where(x => x.MaHoSo == MaHoSo);
+            foreach (var dt in listpxn)
+            {
+                dt.MaHoSo = null;
+            }
+            
             _context.Hosokhams.Remove(kh);
             _context.SaveChanges();
             return RedirectToAction("Index");
