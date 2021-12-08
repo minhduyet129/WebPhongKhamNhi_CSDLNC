@@ -6,10 +6,16 @@
 
 <h1>Danh sách hồ sơ khám bệnh</h1>
 
+<form asp-action="Index" method="post">
+    <input type="text" name="keyword" />
+    <button type="submit">Tìm kiếm</button>
+</form>
+<br />
 
 <table class="table">
     <thead>
         <tr>
+            <th>Mã hồ sơ</th>
             <th>
                 @Html.DisplayNameFor(model => model.TrieuChung)
             </th>
@@ -31,6 +37,7 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>@item.MaHoSo</td>
             <td>
                 @Html.DisplayFor(modelItem => item.TrieuChung)
             </td>
