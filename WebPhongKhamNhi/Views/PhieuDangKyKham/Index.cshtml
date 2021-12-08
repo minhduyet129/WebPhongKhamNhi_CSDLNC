@@ -4,55 +4,65 @@
     ViewData["Title"] = "Index";
 }
 
+<h1>Danh sách phiếu đăng kí khám</h1>
+<h4>Tìm kiếm theo mã phiếu, họ tên, ngày, tên dịch vụ</h4>
 <form asp-action="Index" method="POST">
     <input type="text" name="textSearch" />
     <input type="submit" value="Tìm kiếm" />
 </form>
-
-<h1>Danh sách phiếu đăng kí khám</h1>
-
 <p>
     <a asp-action="Create">Thêm mới</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>STT</th>
             <th>
-                @Html.DisplayNameFor(model => model.NgayDangKy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TongTien)
+                @Html.DisplayNameFor(model => model.MaPhieuDangKy)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MaBenhNhanNavigation.HoTen)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.NgayDangKy)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.MaDichVuNavigation.TenDichVu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TongTien)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayDangKy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TongTien)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaBenhNhanNavigation.HoTen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaDichVuNavigation.TenDichVu)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaPhieuDangKy">Sửa</a> |
-                <a asp-action="Details" asp-route-id="@item.MaPhieuDangKy">Chi tiết</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaPhieuDangKy">Xoá</a>
-            </td>
-        </tr>
-}
+        @{ int i = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@i</td>
+                @{ i++;}
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaPhieuDangKy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaBenhNhanNavigation.HoTen)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayDangKy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaDichVuNavigation.TenDichVu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TongTien)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MaPhieuDangKy">Sửa</a> |
+                    <a asp-action="Details" asp-route-id="@item.MaPhieuDangKy">Chi tiết</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MaPhieuDangKy">Xoá</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

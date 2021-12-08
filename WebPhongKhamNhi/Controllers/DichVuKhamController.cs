@@ -36,7 +36,7 @@ namespace WebPhongKhamNhi.Controllers
                 return View();
 
             string txtFormat = textSearch.Trim().ToLower();
-            var resultSearch = _context.Dichvukhams.Where(dv => dv.TenDichVu.Contains(txtFormat));
+            var resultSearch = _context.Dichvukhams.Where(dv => dv.TenDichVu.ToLower().Contains(txtFormat));
             return View(resultSearch);
         }
 

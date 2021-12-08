@@ -43,10 +43,11 @@ namespace WebPhongKhamNhi.Controllers
             }
             else
             {
-                var result = _context.Phieunhaps.Include(p => p.MaNhaSanXuatNavigation).Where(
-                   p => p.MaNhaSanXuatNavigation.TenNhaSanXuat.Contains(textSearchFormat) ||
-                   p.MaPhieuNhap.ToString().Contains(textSearchFormat)
-               ).ToList();
+                var result = _context.Phieunhaps.Include(p => p.MaNhaSanXuatNavigation).ToList().Where(
+                   p => p.MaNhaSanXuatNavigation.TenNhaSanXuat.ToLower().Contains(textSearchFormat) ||
+                   p.MaPhieuNhap.ToString().ToLower().Contains(textSearchFormat) ||
+                   p.NgayNhap.ToString().Contains(textSearchFormat)
+               );
 
                 return View(result);
             }
@@ -86,15 +87,13 @@ namespace WebPhongKhamNhi.Controllers
             return View();
         }
 
-
-
         // POST: PhieuNhapThuoc/Create
         [HttpPost]
         public ActionResult Create(Phieunhap phieunhap, IEnumerable<Chitietphieunhap> chiTietPhieus)
         {
             try
             {
-                //vì id tự sinh, lưu vào csdl để lấy id
+                //vì id tự sinh, lưu phiếu nhập vào csdl để lấy id
                 if (!ModelState.IsValid)
                 {
                     return Json(new { status = false, message = "dữ liệu không hợp lệ" });
@@ -102,20 +101,27 @@ namespace WebPhongKhamNhi.Controllers
                 }
                 _context.Phieunhaps.Add(phieunhap);
                 _context.SaveChanges();
-                Phieunhap phieunhapInDb = _context.Phieunhaps.Where(p => p.NgayNhap == phieunhap.NgayNhap).FirstOrDefault();
-                if (phieunhapInDb == null && chiTietPhieus == null)
-                {
-                    return Json(new { status = false, message = "Tham số truyền vào null" });
-                }
 
-
+                //lưu chi tiết phiếu nhập
+                decimal? tongTien = 0;
                 foreach (var ct in chiTietPhieus)
                 {
+                    //tính thành tiền
+                    decimal? thanhTien = ct.GiaThuoc * ct.SoLuong;
+
+                    //tính tổng tiền phiếu nhập
+                    tongTien += thanhTien;
+
                     ct.MaPhieuNhap = phieunhap.MaPhieuNhap;
+                    ct.ThanhTien = thanhTien;
                     _context.Chitietphieunhaps.Add(ct);
 
-                    //nếu mã thuốc của chi tiết = null, không lưu nữa, xoá phiếu nhập vừa thêm
+                    //cập nhật lượng thuốc tồn kho
+                    _context.Thuocs.Find(ct.MaThuoc).SoLuongTonKho += ct.SoLuong;
                 }
+
+                //cập nhật tổng tiền phiếu nhập
+                phieunhap.TongTien = tongTien;
 
                 _context.SaveChanges();
 
@@ -124,6 +130,16 @@ namespace WebPhongKhamNhi.Controllers
             }
             catch (Exception ex)
             {
+                //kiểm tra có 2 thuốc trùng nhau
+                var duplicateGroup = chiTietPhieus.GroupBy(c => c.MaThuoc)
+                                         .Where(g => g.Count() > 1)
+                                         .Select(c => c);
+                if(duplicateGroup != null)
+                {
+                    return Json(new { status = false, message = "Thông tin thuốc bị trùng lặp" }); 
+                }
+
+
                 return Json(new { status = false, message = ex.Message });
             }
         }
@@ -171,15 +187,22 @@ namespace WebPhongKhamNhi.Controllers
             //2.
 
             //xoa 
-            var chiTietsHienTai = _context.Chitietphieunhaps.Where(c => c.MaPhieuNhap == maPhieuNhap);
+            var chiTietsHienTai = _context.Chitietphieunhaps.Where(c => c.MaPhieuNhap == maPhieuNhap).ToList();
             foreach (var ct in chiTietsHienTai)
             {
+                //cập nhật tồn kho thuốc
+                _context.Thuocs.Find(ct.MaThuoc).SoLuongTonKho -= ct.SoLuong;
+
                 _context.Chitietphieunhaps.Remove(ct);
             }
+            _context.SaveChanges();
 
             //them lai
             foreach (var ct in chiTietPhieus)
             {
+                //cập nhật tồn kho thuốc
+                _context.Thuocs.Find(ct.MaThuoc).SoLuongTonKho += ct.SoLuong;
+
                 ct.MaPhieuNhap = maPhieuNhap;
                 _context.Chitietphieunhaps.Add(ct);
             }
@@ -192,7 +215,8 @@ namespace WebPhongKhamNhi.Controllers
         // GET: PhieuNhapThuoc/Delete/5
         public ActionResult Delete(int id)
         {
-            Phieunhap phieuXoa = _context.Phieunhaps.Find(id);
+            var phieuXoa = _context.Phieunhaps.Include(p => p.MaNhaSanXuatNavigation)
+                .FirstOrDefault(p => p.MaPhieuNhap == id);
             return View(phieuXoa);
         }
 
@@ -207,12 +231,15 @@ namespace WebPhongKhamNhi.Controllers
                 return NotFound();
             }
             //xoá chi tiết phiếu nhập trước
-            var chiTiets = _context.Chitietphieunhaps.Where(c => c.MaPhieuNhap == MaPhieuNhap);
+            var chiTiets = _context.Chitietphieunhaps.Where(c => c.MaPhieuNhap == MaPhieuNhap).ToList();
             if (chiTiets.Count() != 0)
             {
                 foreach (var ct in chiTiets)
                 {
                     _context.Chitietphieunhaps.Remove(ct);
+
+                    //giảm số lượng tồn kho của thuốc nếu xoá phiếu nhập
+                    _context.Thuocs.Find(ct.MaThuoc).SoLuongTonKho -= ct.SoLuong;
                 }
             }
 

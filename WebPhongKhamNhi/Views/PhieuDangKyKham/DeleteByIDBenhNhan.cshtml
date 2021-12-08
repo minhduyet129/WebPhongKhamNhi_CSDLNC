@@ -11,6 +11,12 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MaPhieuDangKy)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MaPhieuDangKy)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.NgayDangKy)
         </dt>
         <dd class="col-sm-10">
@@ -40,6 +46,6 @@
         @Html.AntiForgeryToken()
         <input name="maPhieu" type="hidden" value="@Model.MaPhieuDangKy" />
         <input type="submit" value="Xoá" class="btn btn-danger" /> |
-        <a href="@Url.Action("GetByIDBenhNhan", "PhieuDangKyKham", new {id=Model.MaBenhNhan})">Trở lại</a>
+        <a href="@Url.Action("GetByIDBenhNhan", "PhieuDangKyKham", new {id=Model.MaBenhNhan})">Quay lại</a>
     </form>
 </div>
