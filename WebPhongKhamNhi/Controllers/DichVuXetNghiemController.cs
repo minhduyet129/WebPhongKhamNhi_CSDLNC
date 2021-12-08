@@ -33,6 +33,12 @@ namespace WebPhongKhamNhi.Controllers
         [HttpPost]
         public IActionResult Create(Dichvuxetnghiem Dichvuxetnghiem)
         {
+            var oldkhoa = _context.Dichvuxetnghiems.FirstOrDefault(x => x.TenXetNghiem == Dichvuxetnghiem.TenXetNghiem);
+            if (oldkhoa != null)
+            {
+                ViewData["Message"] = "Tên dịch vụ xét nghiệm đã tồn tại";                
+                return View();
+            }
             var dvxn = new Dichvuxetnghiem()
             {
                 TenXetNghiem = Dichvuxetnghiem.TenXetNghiem, 
@@ -45,7 +51,8 @@ namespace WebPhongKhamNhi.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var dvxn = _context.Dichvuxetnghiems.Find(id);
+            var dvxn = _context.Dichvuxetnghiems.Find(id); 
+
             if (dvxn == null)
             {
                 return NotFound();
@@ -56,9 +63,16 @@ namespace WebPhongKhamNhi.Controllers
         public IActionResult Edit(int id, Dichvuxetnghiem Dichvuxetnghiem)
         {
             var dvxnUpdate = _context.Dichvuxetnghiems.Find(id);
+            
             if (dvxnUpdate == null)
             {
                 return NotFound();
+            }
+            var oldkhoa = _context.Dichvuxetnghiems.FirstOrDefault(x => x.TenXetNghiem == Dichvuxetnghiem.TenXetNghiem);
+            if (oldkhoa != null)
+            {
+                ViewData["Message"] = "Tên dịch vụ xét nghiệm đã tồn tại";
+                return View();
             }
 
             dvxnUpdate.TenXetNghiem = Dichvuxetnghiem.TenXetNghiem;
@@ -87,6 +101,13 @@ namespace WebPhongKhamNhi.Controllers
             if (dvxn == null)
             {
                 return NotFound();
+            }
+            var ctdt = _context.Chitietphieuxetnghiems.FirstOrDefault(x => x.MaXetNghiem == MaXetNghiem);           
+            if (ctdt != null )
+            {
+                ViewData["Message"] = "Bạn không thể xóa xét nghiệm này vì nó nằm trong phiếu xét nghiệm";
+
+                return View("Delete");
             }
             _context.Dichvuxetnghiems.Remove(dvxn);
             _context.SaveChanges();

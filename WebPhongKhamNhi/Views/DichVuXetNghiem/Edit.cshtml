@@ -8,6 +8,10 @@
 
 <h1>Sửa dịch vụ xét nghiệm</h1>
 <hr />
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-danger">@ViewData["Message"]</div>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
