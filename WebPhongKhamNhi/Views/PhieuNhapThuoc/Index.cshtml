@@ -4,19 +4,21 @@
     ViewData["Title"] = "Index";
 }
 
+
+
+<h1>Danh sách phiếu nhập thuốc</h1>
+<p>Tìm kiếm thêo tên nhà sản xuất, mã phiếu nhập, ngày tạo phiếu</p>
 <form asp-action="Index" method="POST">
     <input type="text" name="textSearch" />
     <input type="submit" value="Tìm kiếm" />
 </form>
-
-<h1>DANH SÁCH PHIẾU NHẬP THUỐC</h1>
-
 <p>
     <a asp-action="Create">Thêm phiếu nhập thuốc</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>STT</th>
             <th>
                 @Html.DisplayNameFor(model => model.MaPhieuNhap)
             </th>
@@ -33,9 +35,12 @@
         </tr>
     </thead>
     <tbody>
+        @{ int i = 1;}
         @foreach (var item in Model)
         {
             <tr>
+                <td>@i</td>
+                @{ i++;}
                 <td>
                     @Html.DisplayFor(modelItem => item.MaPhieuNhap)
                 </td>

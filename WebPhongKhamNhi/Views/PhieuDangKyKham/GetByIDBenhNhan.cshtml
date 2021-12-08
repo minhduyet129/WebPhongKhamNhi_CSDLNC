@@ -12,43 +12,54 @@
 <h1>Danh sách phiếu đăng kí khám</h1>
 
 <p>
-    <a href="@Url.Action("CreateByIdBenhNhan","PhieuDangKyKham", 
+    <a href="@Url.Action("CreateByIdBenhNhan","PhieuDangKyKham",
             new { id=ViewBag.maBenhNhan})">
-    Thêm mới</a>
+        Thêm mới
+    </a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>STT</th>
             <th>
-                @Html.DisplayNameFor(model => model.NgayDangKy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TongTien)
+                @Html.DisplayNameFor(model => model.MaPhieuDangKy)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MaBenhNhanNavigation.HoTen)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.NgayDangKy)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.MaDichVuNavigation.TenDichVu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TongTien)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
+        @{ int i = 1;}
         @foreach (var item in Model)
         {
             <tr>
+                <td>@i</td>
+                @{ i++;}
                 <td>
-                    @Html.DisplayFor(modelItem => item.NgayDangKy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TongTien)
+                    @Html.DisplayFor(modelItem => item.MaPhieuDangKy)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.MaBenhNhanNavigation.HoTen)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.NgayDangKy)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.MaDichVuNavigation.TenDichVu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TongTien)
                 </td>
                 <td>
                     <a asp-action="EditByIDBenhNhan" asp-route-id="@item.MaPhieuDangKy">Sửa</a> |

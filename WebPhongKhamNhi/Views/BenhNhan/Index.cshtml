@@ -4,14 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Danh sách bệnh nhân</h1>
 <h4>Tìm kiếm theo tên và số điện thoại</h4>
 <form asp-action="Index" method="post">
     <input type="text" name="keyword" />
     <button type="submit">Tìm kiếm</button>
 </form>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Thêm mới bệnh nhân</a>
 </p>
 <table class="table">
     <thead>
@@ -73,9 +73,9 @@
 
 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.MaBenhNhan">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.MaBenhNhan">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.MaBenhNhan">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.MaBenhNhan">Cập nhật</a> |
+                    <a asp-action="Details" asp-route-id="@item.MaBenhNhan">Chi tiết</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MaBenhNhan">Xóa</a>
                 </td>
             </tr>
         }

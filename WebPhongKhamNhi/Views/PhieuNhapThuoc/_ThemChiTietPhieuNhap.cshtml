@@ -2,20 +2,22 @@
 @{
     var listThuoc = ViewBag.listThuoc;
 }
-<h4>Chitietphieunhap</h4>
 <hr />
+<h4>Danh sách thuốc</h4>
 <div class="row">
     <div class="col-md-9">
         <table class="myTable" id="tableChiTietPhieuNhap">
             <thead>
                 <tr>
+                    @{ int i = 1;}
+                    <th>STT</th>
                     <th>
                         @Html.DisplayNameFor(model => model.MaThuocNavigation.Ten)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.GiaThuoc)
                     </th>
-                    <th>
+                    <th style="width:15%">
                         @Html.DisplayNameFor(model => model.SoLuong)
                     </th>
                     <th>
@@ -27,8 +29,10 @@
             </thead>
             <tbody>
                 <tr class="trChiTiet">
+                    <td>@i</td>
+                    @{ i++;}
                     <td>
-                        @Html.DropDownList("TenThuoc", new SelectList(listThuoc, "MaThuoc", "Ten"), "--Chọn thuốc--")
+                        @Html.DropDownList("TenThuoc", new SelectList(listThuoc, "MaThuoc", "Ten"), "--Chọn thuốc--", new { @class = "form-control" })
                     </td>
                     <td>
                         <input asp-for="GiaThuoc" class="form-control giathuoc" />
@@ -36,7 +40,9 @@
                     <td>
                         <input asp-for="SoLuong" class="form-control soluong" />
                     </td>
-                    <td class="thanhTien">0</td>
+                    <td>
+                        <input type="text" class="thanhTien form-control" readonly />
+                    </td>
                     <td>
                         <button type="button" class="btn btn-outline-danger deleteCt">-</button>
                     </td>

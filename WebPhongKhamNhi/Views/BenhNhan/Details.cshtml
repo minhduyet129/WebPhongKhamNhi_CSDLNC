@@ -4,10 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Thông tin chi tiết bệnh nhân @Model.HoTen</h1>
 
 <div>
-    <h4>Benhnhan</h4>
+   
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -75,17 +75,20 @@
             </dd>
         }
 </div>
-<form action="/HoSoKham/GetHoSoTheoBenhNhan" method="get">
-    <input type="hidden"  name="id" value="@Model.MaBenhNhan" />
-    <button type="submit" class="btn btn-primary">Danh sách hồ sơ khám</button>
-</form>
+<div class="d-flex">
+    <form action="/HoSoKham/GetHoSoTheoBenhNhan" method="get" class="mr-3">
+        <input type="hidden" name="id" value="@Model.MaBenhNhan" />
+        <button type="submit" class="btn btn-primary">Danh sách hồ sơ khám</button>
+    </form>
 
-<form action="@Url.Action("GetByIDBenhNhan","PhieuDangKyKham")" method="get">
-    <input type="hidden" name="id" value="@Model.MaBenhNhan" />
-    <button type="submit" class="btn btn-primary">Lịch sử đăng ký</button>
-</form>
+    <form action="@Url.Action("GetByIDBenhNhan","PhieuDangKyKham")" method="get">
+        <input type="hidden" name="id" value="@Model.MaBenhNhan" />
+        <button type="submit" class="btn btn-primary">Lịch sử đăng ký</button>
+    </form>
+</div>
 
+<br />
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.MaBenhNhan">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.MaBenhNhan">Cập nhật</a> |
+    <a asp-action="Index">Danh sách bệnh nhân</a>
 </div>

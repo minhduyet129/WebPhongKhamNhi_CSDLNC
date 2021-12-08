@@ -17,11 +17,15 @@ namespace WebPhongKhamNhi.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string keyword)
         {
-            var listkhoa = _context.Bacsis.Include(x => x.MaKhoaNavigation).OrderBy(x => x.HoTen);
-
-            return View(listkhoa);
+            var listbacsi = _context.Bacsis.Include(x => x.MaKhoaNavigation).OrderBy(x => x.HoTen).ToList();
+            if (String.IsNullOrEmpty(keyword))
+            {
+                return View(listbacsi);
+            }
+            listbacsi = listbacsi.Where(x => x.HoTen.ToLower().Contains(keyword.ToLower()) || x.SoDienThoai.Contains(keyword)).ToList();
+            return View(listbacsi);
         }
 
         public IActionResult Details(int id)
