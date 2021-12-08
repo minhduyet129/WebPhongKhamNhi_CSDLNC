@@ -23,6 +23,22 @@ namespace WebPhongKhamNhi.Controllers
             return View(listNsx);
         }
 
+        [HttpPost]
+        public IActionResult Index(string textSearch)
+        {
+            if (string.IsNullOrEmpty(textSearch) || string.IsNullOrWhiteSpace(textSearch))
+                return RedirectToAction(nameof(Index));
+
+            string textSearchFormat = textSearch.Trim().ToLower();
+            var listNsx = _context.Nhasanxuats.Where(
+                n => n.TenNhaSanXuat.ToLower().Contains(textSearchFormat) 
+                || n.DiaChi.ToLower().Contains(textSearchFormat)
+                || n.SoDienThoai.Contains(textSearchFormat)
+            ).OrderBy(n=>n.TenNhaSanXuat);
+
+            return View(listNsx);
+        }
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -32,6 +48,15 @@ namespace WebPhongKhamNhi.Controllers
         [HttpPost]
         public IActionResult Create(Nhasanxuat nsx)
         {
+            //kiểm tra trùng tên
+            ViewData["DupplicateNameErrorMessage"] = null;
+            var nsxSameName = _context.Nhasanxuats.Where(n => n.TenNhaSanXuat == nsx.TenNhaSanXuat);
+            if(nsxSameName.Count() > 0)
+            {
+                ViewData["DupplicateNameErrorMessage"] = "Tên nhà sản xuất đã tồn tại.";
+                return View(nsx);
+            }
+
             _context.Add(nsx);
             _context.SaveChanges();
             return RedirectToAction("Index");
