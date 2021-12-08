@@ -4,10 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Chi tiết hóa đơn thuốc</h1>
 
 <div>
-    <h4>Hoadonthuoc</h4>
+    
     <hr />
 
     <dl class="row">
@@ -55,9 +55,9 @@
                 <td>@item.Gia</td>
                 <td>@item.ThanhTien</td>
                 <td>
-                    <a asp-action="EditCTHDT" asp-route-mahoadon="@item.MaHoaDonThuoc" asp-route-mathuoc="@item.MaThuoc">Edit</a> |
+                    <a asp-action="EditCTHDT" asp-route-mahoadon="@item.MaHoaDonThuoc" asp-route-mathuoc="@item.MaThuoc">Cập nhật</a> |
                    
-                    <a asp-action="DeleteCTHDT" asp-route-mahoadon="@item.MaHoaDonThuoc" asp-route-mathuoc="@item.MaThuoc">Delete</a>
+                    <a asp-action="DeleteCTHDT" asp-route-mahoadon="@item.MaHoaDonThuoc" asp-route-mathuoc="@item.MaThuoc">Xóa</a>
                 </td>
             </tr>
             }
@@ -67,6 +67,6 @@
     </table>
 </div>
 <div>
-    |
-    <a asp-action="Index">Back to List</a>
+    
+    <a asp-action="Index">Quay lại danh sách hóa đơn</a>
 </div>
