@@ -117,7 +117,7 @@ namespace WebPhongKhamNhi.Controllers
             if (old != null)
             {
                 old.SoLuong = old.SoLuong + chitietdonthuoc.SoLuong;
-                old.HuongDanSuDung = old.HuongDanSuDung + chitietdonthuoc.HuongDanSuDung;
+                old.HuongDanSuDung = chitietdonthuoc.HuongDanSuDung;
                 _context.SaveChanges();
                 var hdtold = _context.Donthuocs.FirstOrDefault(x => x.MaDonThuoc == chitietdonthuoc.MaDonThuoc);
                 if (hdtold == null)
