@@ -6,7 +6,7 @@
 
 <h1>Thêm đơn thuốc theo hồ sơ</h1>
 
-<h4>Donthuoc</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -17,7 +17,7 @@
                 <select asp-for="MaHoSo" class="form-control" asp-items="ViewBag.MaHoSo"></select>
             </div>
             <div class="form-group">
-                <label asp-for="TenDonThuoc" class="control-label"></label>
+                <label asp-for="TenDonThuoc" class="control-label">Tên đơn thuốc</label>
                 <input asp-for="TenDonThuoc" class="form-control" />
                 <span asp-validation-for="TenDonThuoc" class="text-danger"></span>
             </div>
