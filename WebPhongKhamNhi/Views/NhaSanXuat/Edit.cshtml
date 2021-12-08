@@ -7,6 +7,12 @@
 <h1>Sửa thông tin nhà sản xuất</h1>
 
 <hr />
+@if (ViewData["DupplicateNameErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        <p>@ViewData["DupplicateNameErrorMessage"]</p>
+    </div>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">

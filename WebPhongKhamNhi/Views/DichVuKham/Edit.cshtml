@@ -5,7 +5,12 @@
 }
 
 <h1>Sửa thông tin dịch vụ khám</h1>
-
+@if (ViewData["DichVuDuplicateName"] != null)
+{
+    <div class="alert alert-danger">
+        <p>@ViewData["DichVuDuplicateName"]</p>
+    </div>
+}
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,12 +19,12 @@
             <input type="hidden" asp-for="MaDichVu" />
             <div class="form-group">
                 <label asp-for="TenDichVu" class="control-label"></label>
-                <input asp-for="TenDichVu" class="form-control" value="@Model.TenDichVu"/>
+                <input asp-for="TenDichVu" class="form-control" value="@Model.TenDichVu" />
                 <span asp-validation-for="TenDichVu" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ChiPhi" class="control-label"></label>
-                <input asp-for="ChiPhi" class="form-control" value="@Model.ChiPhi"/>
+                <input asp-for="ChiPhi" class="form-control" value="@Model.ChiPhi" />
                 <span asp-validation-for="ChiPhi" class="text-danger"></span>
             </div>
             <div class="form-group">

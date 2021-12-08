@@ -18,6 +18,7 @@ namespace WebPhongKhamNhi.Models
         public int MaDichVu { get; set; }
 
         [DisplayName("Tên dịch vụ")]
+        [Required(ErrorMessage ="{0} còn trống.")]
         public string TenDichVu { get; set; }
 
         [DisplayName("Chi phí")]
