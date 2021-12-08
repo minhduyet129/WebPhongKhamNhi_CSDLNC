@@ -4,14 +4,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Danh sách nhà sản xuất</h1>
+<h4>Tìm kiếm theo tên, địa chỉ, số điện thoại</h4>
 
+<form asp-action="Index" method="POST">
+    <input type="text" name="textSearch" />
+    <input type="submit" value="Tìm kiếm" />
+</form>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Thêm mới</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>STT</th>
             <th>
                 @Html.DisplayNameFor(model => model.TenNhaSanXuat)
             </th>
@@ -25,23 +31,27 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenNhaSanXuat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiaChi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoDienThoai)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaNhaSanXuat">Edit</a> |
-                @*<a asp-action="Details" asp-route-id="@item.MaNhaSanXuat">Details</a> |*@
-                <a asp-action="Delete" asp-route-id="@item.MaNhaSanXuat">Delete</a>
-            </td>
-        </tr>
-}
+        @{ int i = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@i</td>
+                @{ i++;}
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenNhaSanXuat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiaChi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoDienThoai)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MaNhaSanXuat">Sửa</a> |
+                    @*<a asp-action="Details" asp-route-id="@item.MaNhaSanXuat">Details</a> |*@
+                    <a asp-action="Delete" asp-route-id="@item.MaNhaSanXuat">Xoá</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

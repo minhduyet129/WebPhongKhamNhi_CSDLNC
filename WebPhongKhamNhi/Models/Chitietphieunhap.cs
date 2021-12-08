@@ -11,7 +11,6 @@ namespace WebPhongKhamNhi.Models
     public partial class Chitietphieunhap
     {
         [DisplayName("Mã phiếu nhập")]
-        [Required(ErrorMessage ="{0} không được trống")]
         public int MaPhieuNhap { get; set; }
 
         [DisplayName("Mã thuốc")]

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<WebPhongKhamNhi.Models.Phieuxetnghiem>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Phiếu xét nghiệm";
     int i = 1;
 }
 
@@ -26,13 +26,13 @@
                 STT
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MaPhieuXetNghiem)
+                Mã phiếu xét nghiệm         
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NgayThanhToan)
+                Ngày thanh toán
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TongTien)
+                Tổng tiền
             </th>
 
             <th></th>
@@ -57,13 +57,19 @@
 
                 <td>
 
-                    <a asp-action="Details" asp-route-id="@item.MaPhieuXetNghiem">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.MaPhieuXetNghiem">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.MaPhieuXetNghiem">Chi tiết</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MaPhieuXetNghiem">Xóa</a>
                 </td>
             </tr>
         }
     </tbody>
-</table>
+</table> 
+<div>
+    <form action="/HoSoKham/Details" method="get">
+        <input type="hidden" name="id" value="@ViewBag.MaHoSo" />
+        <button type="submit" class="btn btn-primary">Quay lại chi tiết hồ sơ khám</button>
+    </form>
+</div>
 
 
 

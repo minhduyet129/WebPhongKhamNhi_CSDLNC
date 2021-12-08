@@ -1,37 +1,41 @@
 ﻿@model WebPhongKhamNhi.Models.Dichvuxetnghiem
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Sửa dịch vụ";
 }
 
-<h1>Edit</h1>
 
-<h4>Dichvuxetnghiem</h4>
+
+<h1>Sửa dịch vụ xét nghiệm</h1>
 <hr />
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-danger">@ViewData["Message"]</div>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="MaXetNghiem" />
             <div class="form-group">
-                <label asp-for="TenXetNghiem" class="control-label"></label>
+                <label asp-for="TenXetNghiem" class="control-label">Tên xét nghiệm</label>
                 <input asp-for="TenXetNghiem" class="form-control" />
                 <span asp-validation-for="TenXetNghiem" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ChiPhi" class="control-label"></label>
+                <label asp-for="ChiPhi" class="control-label">Chi phí</label>
                 <input asp-for="ChiPhi" class="form-control" />
                 <span asp-validation-for="ChiPhi" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Lưu" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Quay lại dịch vụ xét nghiệm</a>
 </div>
 
 @section Scripts {

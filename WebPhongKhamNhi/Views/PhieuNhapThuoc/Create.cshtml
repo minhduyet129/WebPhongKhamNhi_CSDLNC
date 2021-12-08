@@ -4,15 +4,8 @@
     ViewData["Title"] = "Create";
     var listNsx = ViewBag.listNsx;
 }
-<form id="formTest">
-    <div class="form-group">
-        <input asp-for="NgayNhap" class="form-control" />
-        <span asp-validation-for="NgayNhap" class="text-danger"></span>
-    </div>
-    <input type="submit" value="shit"/>
-</form>
-<h1>Create</h1>
-<h4>Phieunhap</h4>
+
+<h1>Thêm phiếu nhập thuốc</h1>
 <hr/>
 <div class="row">
     <div class="col-md-4">
@@ -25,17 +18,17 @@
         <div class="form-group">
             @Html.DropDownList("MaNhaSanXuat",
             new SelectList(listNsx, "MaNhaSanXuat", "TenNhaSanXuat"),
-            "--Chọn nhà sản xuất--");
+            "--Chọn nhà sản xuất--", new {@class="form-control" })
         </div>
     </div>
 </div>
 <div class="form-group">
     <partial name="_ThemChiTietPhieuNhap" />
+    <input id="btnSave" type="button" value="Lưu" class="btn btn-primary" />
 </div>
-<input id="btnSave" type="button" value="Create" class="btn btn-primary" />
 
 <div class="container">
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Quay lại</a>
 </div>
 
 @section Scripts {
@@ -43,10 +36,11 @@
 
     <script>
         $(document).ready(function () {
-            $('#formTest').on('submit', function (event) {
-
-                e.preventDefault();
-            })
+            //load dữ liệu lên trang
+            //load ngày hiện tại
+            var today = new Date();
+            today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+            $('#NgayNhap').val(today.toISOString().slice(0, 16));
 
 
             @* bind event click delete vao ca button moi them *@
@@ -67,7 +61,6 @@
 
 
             $("#btnSave").click(function () {
-
                 var form = $('#__AjaxAntiForgeryForm');
                 var token = $('input[name="__RequestVerificationToken"]', form).val();
 
@@ -86,15 +79,15 @@
                     chiTiet.GiaThuoc = $(trElement).find(".giathuoc").val();
                     chiTiet.SoLuong = $(trElement).find('.soluong').val();
 
-                    var thanhTien = $(trElement).find('.thanhTien').html();
-                    chiTiet.ThanhTien = thanhTien;
+                    //var thanhTien = $(trElement).find('.thanhTien').html();
+                    //chiTiet.ThanhTien = thanhTien;
 
                     chiTietPhieus.push(chiTiet);
 
-                    tongTien += parseFloat(thanhTien);
+                    //tongTien += parseFloat(thanhTien);
                 })
                 //cập nhật lại tổng tiền phiếu nhập
-                phieuNhap.TongTien = tongTien;
+                //phieuNhap.TongTien = tongTien;
 
                 //gửi dữ liệu tới controller
                 $.ajax({
@@ -128,7 +121,7 @@
                 var giaThuocVal = $(this).val();
                 var giaThuoc = parseFloat(giaThuocVal) || 0;
 
-                $(this).closest('tr').find('.thanhTien').html(soLuong * giaThuoc);
+                $(this).closest('tr').find('.thanhTien').val(soLuong * giaThuoc);
             })
 
             $('#tableChiTietPhieuNhap').on('input', '.soluong', function () {
@@ -140,7 +133,7 @@
                 var soLuongVal = $(this).val();
                 var soLuong = parseFloat(soLuongVal) || 0;
 
-                $(this).closest('tr').find('.thanhTien').html(soLuong * giaThuoc);
+                $(this).closest('tr').find('.thanhTien').val(soLuong * giaThuoc);
             })
     })
     </script>

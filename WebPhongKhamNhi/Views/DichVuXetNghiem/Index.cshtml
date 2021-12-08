@@ -1,22 +1,26 @@
 ﻿@model IEnumerable<WebPhongKhamNhi.Models.Dichvuxetnghiem>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Dịch vụ xét nghiệm";
+    int i = 1;
 }
 
-<h1>Index</h1>
+<h1>Dịch vụ xét nghiệm</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Tạo mới</a>
 </p>
 <table class="table">
     <thead>
-        <tr>
+        <tr> 
             <th>
-                @Html.DisplayNameFor(model => model.TenXetNghiem)
+                STT
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ChiPhi)
+                Tên xét nghiệm
+            </th>
+            <th>
+                Chi phí
             </th>
             <th></th>
         </tr>
@@ -25,14 +29,17 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @(i++)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.TenXetNghiem)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ChiPhi)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.MaXetNghiem">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaXetNghiem">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.MaXetNghiem">Sửa</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaXetNghiem">Xóa</a>
             </td>
         </tr>
 }

@@ -34,15 +34,18 @@ namespace WebPhongKhamNhi.Controllers
         public ActionResult Index(string textSearch)
         {
             if (string.IsNullOrEmpty(textSearch) || string.IsNullOrWhiteSpace(textSearch))
-                return View();
+                return RedirectToAction(nameof(Index));
 
             string txtFormat = textSearch.Trim().ToLower();
             var resultSearch = _context.Phieudangkykhams
                 .Include(p => p.MaBenhNhanNavigation)
                 .Include(p => p.MaDichVuNavigation)
+                .ToList()
                 .Where(
-                    dv => dv.MaBenhNhanNavigation.HoTen.Contains(txtFormat)
-                        || dv.MaDichVuNavigation.TenDichVu.Contains(txtFormat)
+                    dv => dv.MaBenhNhanNavigation.HoTen.ToLower().Contains(txtFormat)
+                        || dv.MaDichVuNavigation.TenDichVu.ToLower().Contains(txtFormat)
+                        || dv.NgayDangKy.ToString().Contains(txtFormat)
+                        || dv.MaPhieuDangKy.ToString().ToLower().Contains(txtFormat)
                 );
 
             return View(resultSearch);
@@ -197,7 +200,7 @@ namespace WebPhongKhamNhi.Controllers
         public ActionResult CreateByIdBenhNhan(int id)
         {
             ViewBag.id = id;
-            ViewBag.MaBenhNhan = _context.Benhnhans.OrderBy(b => b.HoTen);
+            ViewBag.MaBenhNhan = _context.Benhnhans.Find(id);
             ViewBag.listDichVu = _context.Dichvukhams.OrderBy(d => d.TenDichVu);
             return View();
         }
@@ -227,7 +230,7 @@ namespace WebPhongKhamNhi.Controllers
         {
             var phieu = _context.Phieudangkykhams.Find(id);
 
-            ViewBag.MaBenhNhan = _context.Benhnhans.OrderBy(b => b.MaBenhNhan);
+            ViewBag.MaBenhNhan = _context.Benhnhans.Find(phieu.MaBenhNhan);
             ViewBag.MaDichVu = _context.Dichvukhams.OrderBy(d => d.TenDichVu);
 
             return View(phieu);

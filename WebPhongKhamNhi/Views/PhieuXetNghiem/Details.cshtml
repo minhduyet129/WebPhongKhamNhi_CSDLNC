@@ -1,34 +1,33 @@
 ﻿@model WebPhongKhamNhi.Models.Phieuxetnghiem
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết";
 }
 
-<h1>Details</h1>
+<h1>Chi tiết phiếu xét nghiệm</h1>
 
-<div>
-    <h4>Phieuxetnghiem</h4>
-    <hr />
+<div> 
+    
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MaPhieuXetNghiem)
+           Mã phiếu xét nghiệm
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MaPhieuXetNghiem)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MaHoSo)
+           Mã hồ sơ
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MaHoSo)
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayThanhToan)
+            Ngày thanh toán
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NgayThanhToan)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TongTien)
+            Tổng tiền
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TongTien)
@@ -56,9 +55,9 @@
                     <td>@item.MaXetNghiemNavigation.TenXetNghiem</td>
                     <td>@item.ChiPhi</td>
                     <td>
-                        <a asp-action="EditCTPXN" asp-route-maphieuxetnghiem="@item.MaPhieuXetNghiem" asp-route-maxetnghiem="@item.MaXetNghiem">Edit</a> |
+                        <a asp-action="EditCTPXN" asp-route-maphieuxetnghiem="@item.MaPhieuXetNghiem" asp-route-maxetnghiem="@item.MaXetNghiem">Sửa</a> |
 
-                        <a asp-action="DeleteCTPXN" asp-route-maphieuxetnghiem="@item.MaPhieuXetNghiem" asp-route-maxetnghiem="@item.MaXetNghiem">Delete</a>
+                        <a asp-action="DeleteCTPXN" asp-route-maphieuxetnghiem="@item.MaPhieuXetNghiem" asp-route-maxetnghiem="@item.MaXetNghiem">Xóa</a>
                     </td>
                 </tr>
             }
