@@ -119,6 +119,15 @@ namespace WebPhongKhamNhi.Controllers
             {
                 return NotFound();
             }
+            var pdkk = _context.Phieudangkykhams.FirstOrDefault(x => x.MaBenhNhan == MaBenhNhan);
+            var hosokham = _context.Hosokhams.FirstOrDefault(x => x.MaBenhNhan == MaBenhNhan);
+            var lsdn = _context.Lichsudangnhaps.FirstOrDefault(x => x.MaBenhNhan == MaBenhNhan);
+            if (pdkk != null || hosokham != null! || lsdn != null)
+            {
+                ViewData["Message"] = "Bạn không thể xóa người dùng này vì có trong các hồ sơ !";
+
+                return View("Delete");
+            }
             _context.Benhnhans.Remove(kh);
             _context.SaveChanges();
             return RedirectToAction("Index");

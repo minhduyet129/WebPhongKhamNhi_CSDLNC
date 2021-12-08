@@ -6,7 +6,11 @@
 }
 
 <h1>Danh sách bác sĩ</h1>
-
+<h4>Tìm kiếm theo tên và số điện thoại</h4>
+<form asp-action="Index" method="post">
+    <input type="text" name="keyword" />
+    <button type="submit">Tìm kiếm</button>
+</form>
 <p>
     <a asp-action="Create">Thêm mới bác sĩ</a>
 </p>
@@ -17,7 +21,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.HoTen)
             </th>
-            
+
             <th>
                 @Html.DisplayNameFor(model => model.TrinhDo)
             </th>
@@ -31,28 +35,29 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>@(i++)</td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HoTen)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.TrinhDo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoDienThoai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaKhoaNavigation.TenKhoa)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaBacSi">Cập nhật</a> |
-                
-                <a asp-action="Delete" asp-route-id="@item.MaBacSi">Xóa</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoTen)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.TrinhDo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoDienThoai)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaKhoaNavigation.TenKhoa)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MaBacSi">Cập nhật</a> |
+
+                    <a asp-action="Delete" asp-route-id="@item.MaBacSi">Xóa</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
