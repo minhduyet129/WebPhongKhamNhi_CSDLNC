@@ -45,11 +45,19 @@ namespace WebPhongKhamNhi.Controllers
         [HttpPost]
         public IActionResult Create(Thuoc thuoc)
         {
+            var oldkhoa = _context.Thuocs.FirstOrDefault(x => x.Ten == thuoc.Ten);
+            if (oldkhoa != null)
+            {
+                ViewData["Message"] = "Tên thuốc đã tồn tại";
+                var list = _context.Nhasanxuats.OrderBy(x => x.TenNhaSanXuat);
+                ViewBag.NhaSanXuat = list;
+                return View();
+            }
             var kh = new Thuoc()
             {
                 Ten=thuoc.Ten,
                 HuongDan=thuoc.HuongDan,
-                SoLuongTonKho=thuoc.SoLuongTonKho,
+                SoLuongTonKho=thuoc.SoLuongTonKho ?? 0,
                 Gia=thuoc.Gia,
                 MaNhaSanXuat=thuoc.MaNhaSanXuat
             };
@@ -77,7 +85,14 @@ namespace WebPhongKhamNhi.Controllers
             {
                 return NotFound();
             }
-
+            var oldkhoa = _context.Thuocs.FirstOrDefault(x => x.Ten == thuoc.Ten);
+            if (oldkhoa != null)
+            {
+                ViewData["Message"] = "Tên thuốc đã tồn tại";
+                var list = _context.Nhasanxuats.OrderBy(x => x.TenNhaSanXuat);
+                ViewBag.NhaSanXuat = list;
+                return View();
+            }
             kh.Ten = thuoc.Ten;
             kh.HuongDan = thuoc.HuongDan;
             kh.SoLuongTonKho = thuoc.SoLuongTonKho;
@@ -102,12 +117,21 @@ namespace WebPhongKhamNhi.Controllers
         [HttpPost]
         public IActionResult DeletePost(int MaThuoc)
         {
-            var kh = _context.Khoas.Find(MaThuoc);
+            var kh = _context.Thuocs.Find(MaThuoc);
             if (kh == null)
             {
                 return NotFound();
             }
-            _context.Khoas.Remove(kh);
+            var ctdt = _context.Chitietdonthuocs.FirstOrDefault(x => x.MaThuoc == MaThuoc);
+            var cthdt = _context.Chitiethoadonthuocs.FirstOrDefault(x => x.MaThuoc == MaThuoc);
+            var ctpn = _context.Chitietphieunhaps.FirstOrDefault(x => x.MaThuoc == MaThuoc);
+            if(ctdt !=null || cthdt != null || ctpn != null)
+            {
+                ViewData["Message"] = "Bạn không thể xóa thuốc này vì nó nằm trang các hóa đơn";
+                
+                return View("Delete");
+            }
+            _context.Thuocs.Remove(kh);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -1,7 +1,7 @@
 ﻿@model WebPhongKhamNhi.Models.Donthuoc
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết";
 }
 
 <h1>Chi tiết đơn thuốc</h1>
@@ -29,7 +29,7 @@
             @Html.DisplayFor(model => model.MaHoSoNavigation.MaHoSo)
         </dd>
     </dl>
-    <h3>Chi tiết đơn thuốc</h3>
+    <h3>Danh sách thuốc</h3>
     <a asp-action="CreateCTDT" asp-route-madonthuoc="@Model.MaDonThuoc" style="display:block"><button class="btn btn-primary">Thêm thuốc</button></a>
 
     <br />

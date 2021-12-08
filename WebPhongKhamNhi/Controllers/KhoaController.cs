@@ -42,6 +42,12 @@ namespace WebPhongKhamNhi.Controllers
         [HttpPost]
         public IActionResult Create(Khoa khoa)
         {
+            var oldkhoa = _context.Khoas.FirstOrDefault(x => x.TenKhoa == khoa.TenKhoa);
+            if (oldkhoa != null)
+            {
+                ViewData["Message"] = "Tên khoa đã tồn tại";
+                return View();
+            }
             var kh = new Khoa()
             {
                 TenKhoa = khoa.TenKhoa
@@ -63,6 +69,12 @@ namespace WebPhongKhamNhi.Controllers
         [HttpPost]
         public IActionResult Edit(int id,Khoa khoa)
         {
+            var oldkhoa = _context.Khoas.FirstOrDefault(x => x.TenKhoa == khoa.TenKhoa);
+            if (oldkhoa != null)
+            {
+                ViewData["Message"] = "Tên khoa đã tồn tại";
+                return View();
+            }
             var kh = _context.Khoas.Find(id);
             if (kh == null)
             {
@@ -89,10 +101,17 @@ namespace WebPhongKhamNhi.Controllers
         [HttpPost]
         public IActionResult DeletePost(int MaKhoa)
         {
+            
             var kh = _context.Khoas.Find(MaKhoa);
             if (kh == null)
             {
                 return NotFound();
+            }
+            var listBS = _context.Bacsis.Where(x => x.MaKhoa == MaKhoa);
+            foreach (var bs in listBS)
+            {
+                bs.MaKhoa = null;
+               
             }
             _context.Khoas.Remove(kh);
             _context.SaveChanges();
