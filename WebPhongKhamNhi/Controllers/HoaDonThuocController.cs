@@ -16,11 +16,16 @@ namespace WebPhongKhamNhi.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(string keyword)
         {
-            var listhoadon = _context.Hoadonthuocs.OrderByDescending(x => x.NgayThanhToan);
+            var listhoadon = _context.Hoadonthuocs.OrderByDescending(x => x.NgayThanhToan).ToList();
             var listthuoc = _context.Thuocs.OrderBy(x => x.Ten);
             ViewBag.Thuoc = listthuoc;
+            if (String.IsNullOrEmpty(keyword))
+            {
+                return View(listhoadon);
+            }
+            listhoadon = listhoadon.Where(x => x.MaHoaDon.ToString().Contains(keyword.ToLower()) || x.NgayThanhToan.ToString().Contains(keyword)).ToList();
             return View(listhoadon);
         }
 
@@ -154,7 +159,7 @@ namespace WebPhongKhamNhi.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.MaHoaDonThuoc = mahoadon;
             return View(cthdt);
         }
         [HttpPost]

@@ -5,8 +5,13 @@
     int i = 1;
 }
 
-<h1>Index</h1>
-
+<h1>Danh sách hóa đơn thuốc</h1>
+<h4>Tìm kiếm theo mã đơn thuốc và ngày tạo</h4>
+<form asp-action="Index" method="post">
+    <input type="text" name="keyword" />
+    <button type="submit">Tìm kiếm</button>
+</form>
+<br />
 <p>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
         Thêm hóa đơn
@@ -49,9 +54,9 @@
                 </td>
 
                 <td>
-                    
-                    <a asp-action="Details" asp-route-id="@item.MaHoaDon">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.MaHoaDon">Delete</a>
+
+                    <a asp-action="Details" asp-route-id="@item.MaHoaDon">Chi tiết</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MaHoaDon">Xóa</a>
                 </td>
             </tr>
         }

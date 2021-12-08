@@ -4,14 +4,15 @@
     ViewData["Title"] = "GetHoSoTheoBenhNhan";
 }
 
-<h1>GetHoSoTheoBenhNhan</h1>
+<h1>Danh sách hồ sơ của bệnh nhân </h1>
 
 <p>
-    <a asp-action="CreateHoSoTheoBenhNhan" asp-route-id="@ViewBag.MaBenhNhan">Create New</a>
+    <a asp-action="CreateHoSoTheoBenhNhan" asp-route-id="@ViewBag.MaBenhNhan">Thêm mới hồ sơ</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>Mã hồ sơ</th>
             <th>
                 @Html.DisplayNameFor(model => model.TrieuChung)
             </th>
@@ -22,7 +23,7 @@
                 @Html.DisplayNameFor(model => model.NgayTao)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MaBacSiNavigation.HoTen)
+                Bác sĩ
             </th>
            
             <th></th>
@@ -45,9 +46,9 @@
             </td>
             
             <td>
-                <a asp-action="EditHoSoTheoBenhNhan" asp-route-id="@item.MaHoSo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaHoSo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaHoSo">Delete</a>
+                <a asp-action="EditHoSoTheoBenhNhan" asp-route-id="@item.MaHoSo">Cập nhật</a> |
+                <a asp-action="Details" asp-route-id="@item.MaHoSo">Chi tiết</a> |
+                <a asp-action="DeleteTheoBenhNhan" asp-route-id="@item.MaHoSo" asp-route-idbn="@ViewBag.MaBenhNhan">Xóa</a>
             </td>
         </tr>
 }
