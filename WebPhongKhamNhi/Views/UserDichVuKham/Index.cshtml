@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebPhongKhamNhi.Models.Dichvukham>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="main">
+    <div class="content1">
+        <div class="service">
+            <h2>Những dịch vụ của chúng tôi</h2>
+            @foreach (var item in Model)
+            {
+                <div class="image group">
+                    <div class="images_2_of_2">
+                        <a href="details.html">
+                            <img src="images/ser-pic1.jpg" alt="">
+                        </a>
+                    </div>
+                    <div class="span_2_of_2">
+                        <h3>@item.TenDichVu</h3>
+                        <p>
+                            Chi phí: @item.ChiPhi
+                        </p>
+                        <p>
+                            Thông tin mô tả
+                        </p>
+
+                        <div class="rd_more">
+                            <a href="details.html">
+                                <button class="btn btn-3 btn-3e icon-arrow-right">Xem thêm</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
