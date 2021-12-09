@@ -132,10 +132,14 @@ namespace WebPhongKhamNhi.Controllers
         //CRUD cũ
 
 
-        public IActionResult Index()
+        public IActionResult Index(string keyword)
         {
-            var listhsk = _context.Hosokhams.Include(x => x.MaBacSiNavigation).Include(x=>x.MaBenhNhanNavigation).OrderByDescending(x => x.NgayTao);
-
+            var listhsk = _context.Hosokhams.Include(x => x.MaBacSiNavigation).Include(x=>x.MaBenhNhanNavigation).OrderByDescending(x => x.NgayTao).ToList();
+            if (String.IsNullOrEmpty(keyword))
+            {
+                return View(listhsk);
+            }
+            listhsk = listhsk.Where(x => x.MaHoSo.ToString().Contains(keyword.ToLower()) || x.NgayTao.ToString().Contains(keyword)).ToList();
             return View(listhsk);
         }
 
