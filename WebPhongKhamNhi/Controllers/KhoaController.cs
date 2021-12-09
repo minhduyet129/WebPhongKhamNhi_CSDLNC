@@ -70,7 +70,7 @@ namespace WebPhongKhamNhi.Controllers
         public IActionResult Edit(int id,Khoa khoa)
         {
             var oldkhoa = _context.Khoas.FirstOrDefault(x => x.TenKhoa == khoa.TenKhoa);
-            if (oldkhoa != null)
+            if (oldkhoa != null && oldkhoa.MaKhoa!=id)
             {
                 ViewData["Message"] = "Tên khoa đã tồn tại";
                 return View();
