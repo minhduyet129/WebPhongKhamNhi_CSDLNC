@@ -5,7 +5,12 @@
 }
 
 <h1>Xoá thông tin nhà sản xuất</h1>
-
+@if (ViewData["NsxFK"] != null)
+{
+    <div class="alert alert-danger">
+        <p>@ViewData["NsxFK"]</p>
+    </div>
+}
 <h3>Bạn chắc chắn muốn xoá nhà sản xuất này?</h3>
 <div>
     <hr />
@@ -35,7 +40,7 @@
             @Html.DisplayFor(model => model.SoDienThoai)
         </dd>
     </dl>
-    
+
     <form asp-action="DeletePost">
         <input type="hidden" asp-for="MaNhaSanXuat" />
         <input type="submit" value="Xoá" class="btn btn-danger" /> |

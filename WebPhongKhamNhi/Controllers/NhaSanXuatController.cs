@@ -79,7 +79,7 @@ namespace WebPhongKhamNhi.Controllers
             {
                 return NotFound();
             }
-            
+
             return View(nsx);
         }
 
@@ -96,10 +96,10 @@ namespace WebPhongKhamNhi.Controllers
             var nsxNameDupplicate = _context.Nhasanxuats
                                             .Where(n => n.MaNhaSanXuat != id && n.TenNhaSanXuat == nsx.TenNhaSanXuat)
                                             .FirstOrDefault();
-            if (nsxNameDupplicate != null) 
+            if (nsxNameDupplicate != null)
             {
                 ViewData["DupplicateNameErrorMessage"] = "Tên nhà sản xuất đã tồn tại.";
-                return View(nsxUpdate); 
+                return View(nsxUpdate);
             }
 
             nsxUpdate.TenNhaSanXuat = nsx.TenNhaSanXuat;
@@ -112,10 +112,19 @@ namespace WebPhongKhamNhi.Controllers
             return RedirectToAction("Index");
         }
 
-
         [HttpGet]
         public IActionResult Delete(int id)
         {
+            //Kiểm tra nhà sản xuất này có lưu thuốc không
+            ViewData["NsxFK"] = null;
+            var thuocs = _context.Thuocs.Where(t => t.MaNhaSanXuat == id);
+            var phieuNhaps = _context.Phieunhaps.Where(p => p.MaNhaSanXuat == id);
+            if (thuocs != null || phieuNhaps != null)
+            {
+                ViewData["NsxFK"] = "Nhà sản xuất này có liên kết dữ liệu với thuốc hoặc phiếu nhập, " +
+                    "xoá nhà cung cấp này sẽ làm thay đổi tất cả dữ liệu liên quan (thuốc, phiếu nhập).";
+            }
+
             Nhasanxuat nsx = _context.Nhasanxuats.Find(id);
             if (nsx == null)
             {
@@ -132,7 +141,30 @@ namespace WebPhongKhamNhi.Controllers
             if (nsx == null)
             {
                 return NotFound();
+            } 
+
+            //Kiểm tra nhà sản xuất này có lưu thuốc không
+            var thuocs = _context.Thuocs.Where(t => t.MaNhaSanXuat == MaNhaSanXuat);
+            if(thuocs != null)
+            {
+                foreach (var t in thuocs)
+                {
+                    //_context.Thuocs.Remove(t);
+                    t.MaNhaSanXuat = null;
+                }
             }
+
+            //Kiểm tra nhà sản xuất này có lưu phiếu nhập không
+            var phieuNhaps = _context.Phieunhaps.Where(p => p.MaNhaSanXuat == MaNhaSanXuat);
+            if (phieuNhaps != null)
+            {
+                foreach (var p in phieuNhaps)
+                {
+                    p.MaNhaSanXuat = null;
+                }
+            }
+
+            
 
             _context.Nhasanxuats.Remove(nsx);
             _context.SaveChanges();

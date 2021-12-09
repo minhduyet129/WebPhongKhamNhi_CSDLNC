@@ -43,20 +43,33 @@
             $('#NgayNhap').val(today.toISOString().slice(0, 16));
 
 
-            @* bind event click delete vao ca button moi them *@
+            @* bind event click xoá dòng thuốc vao ca button moi them *@
             $('#tableChiTietPhieuNhap').on('click', '.deleteCt', function () {
                 var rowCount = $('#tableChiTietPhieuNhap tr').length;
 
                 //Bang phai co it nhat 2: 1 dong header, 1 dong du lieu
                 if (rowCount > 2) {
                     $(this).closest("tr").remove();
+
+                    //cập nhật lại stt
+                    $('#tableChiTietPhieuNhap tbody>tr').each(function (index, element) {
+                        $(this).find('.idx').html(index+1);
+                    })
                 }
             });
 
-
+            //click button thêm dòng thuốc
             $("#btnThemChiTietPhieuNhap").click(function () {
                 var newRowHtml = $('#tableChiTietPhieuNhap tr:last').html();
+
+                var lastIndex = $('#tableChiTietPhieuNhap tr:last .idx').html();
+                var idxNum = parseInt(lastIndex);
+
+                //thêm dòng mới
                 $('#tableChiTietPhieuNhap tr:last').after('<tr>' + newRowHtml + '</tr>');
+
+                //cập nhật cột số thứ tự
+                $('#tableChiTietPhieuNhap tr:last .idx').html(idxNum+1);
             });
 
 

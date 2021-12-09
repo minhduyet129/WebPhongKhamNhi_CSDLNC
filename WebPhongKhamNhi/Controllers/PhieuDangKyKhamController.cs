@@ -22,6 +22,7 @@ namespace WebPhongKhamNhi.Controllers
         // GET: PhieuDangKyKham
         public ActionResult Index()
         {
+            var test = _context.Phieudangkykhams.ToList();
             var dangkys = _context.Phieudangkykhams
                 .Include(p => p.MaBenhNhanNavigation)
                 .Include(p => p.MaDichVuNavigation)
@@ -191,7 +192,6 @@ namespace WebPhongKhamNhi.Controllers
                 .Include(p => p.MaBenhNhanNavigation)
                 .Include(p => p.MaDichVuNavigation)
                 .OrderByDescending(p => p.NgayDangKy);
-            
 
             return View(dangkys);
         }
@@ -221,7 +221,7 @@ namespace WebPhongKhamNhi.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(CreateByIdBenhNhan));
             }
         }
 
@@ -230,7 +230,7 @@ namespace WebPhongKhamNhi.Controllers
         {
             var phieu = _context.Phieudangkykhams.Find(id);
 
-            ViewBag.MaBenhNhan = _context.Benhnhans.Find(phieu.MaBenhNhan);
+            ViewBag.BenhNhan = _context.Benhnhans.Find(phieu.MaBenhNhan);
             ViewBag.MaDichVu = _context.Dichvukhams.OrderBy(d => d.TenDichVu);
 
             return View(phieu);
