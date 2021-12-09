@@ -30,7 +30,7 @@ namespace WebPhongKhamNhi.Controllers
 
         public IActionResult Details(int id)
         {
-            var khoa = _context.Thuocs.Find(id);
+            var khoa = _context.Thuocs.Include(x=>x.MaNhaSanXuatNavigation).FirstOrDefault(x=>x.MaThuoc==id);
             if (khoa == null)
             {
                 return NotFound();
@@ -90,7 +90,7 @@ namespace WebPhongKhamNhi.Controllers
                 return NotFound();
             }
             var oldkhoa = _context.Thuocs.FirstOrDefault(x => x.Ten == thuoc.Ten);
-            if (oldkhoa != null)
+            if (oldkhoa != null&&oldkhoa.MaThuoc!=id)
             {
                 ViewData["Message"] = "Tên thuốc đã tồn tại";
                 var list = _context.Nhasanxuats.OrderBy(x => x.TenNhaSanXuat);
