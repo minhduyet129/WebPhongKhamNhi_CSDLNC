@@ -68,14 +68,8 @@ namespace WebPhongKhamNhi.Controllers
             {
                 return NotFound();
             }
-            var oldkhoa = _context.Dichvuxetnghiems.FirstOrDefault(x => x.TenXetNghiem == Dichvuxetnghiem.TenXetNghiem);
-            if (oldkhoa != null)
-            {
-                ViewData["Message"] = "Tên dịch vụ xét nghiệm đã tồn tại";
-                return View();
-            }
-
-            dvxnUpdate.TenXetNghiem = Dichvuxetnghiem.TenXetNghiem;
+            ViewBag.TenXetNghiem = id;
+            
             dvxnUpdate.ChiPhi = Dichvuxetnghiem.ChiPhi;
 
             _context.Dichvuxetnghiems.Update(dvxnUpdate);
