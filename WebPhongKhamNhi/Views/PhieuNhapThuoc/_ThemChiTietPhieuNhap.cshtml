@@ -9,7 +9,6 @@
         <table class="myTable" id="tableChiTietPhieuNhap">
             <thead>
                 <tr>
-                    @{ int i = 1;}
                     <th>STT</th>
                     <th>
                         @Html.DisplayNameFor(model => model.MaThuocNavigation.Ten)
@@ -29,8 +28,7 @@
             </thead>
             <tbody>
                 <tr class="trChiTiet">
-                    <td>@i</td>
-                    @{ i++;}
+                    <td style="width:5%" class="idx">1</td>
                     <td>
                         @Html.DropDownList("TenThuoc", new SelectList(listThuoc, "MaThuoc", "Ten"), "--Chọn thuốc--", new { @class = "form-control" })
                     </td>
