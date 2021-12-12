@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using WebPhongKhamNhi.Models;
 
 namespace WebPhongKhamNhi.Controllers
 {
+    [Authorize]
     public class BacSiController : Controller
     {
         private readonly QLPhongKhamNhiContext _context;
@@ -51,6 +53,7 @@ namespace WebPhongKhamNhi.Controllers
         {
             var kh = new Bacsi()
             {
+                
                 HoTen=bacsi.HoTen,
                 
                 TrinhDo=bacsi.TrinhDo,
