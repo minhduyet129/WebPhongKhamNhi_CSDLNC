@@ -29,11 +29,9 @@ namespace WebPhongKhamNhi.Controllers
         [HttpPost]
         public ActionResult Index(string textSearch)
         {
-            if (string.IsNullOrEmpty(textSearch))
-                return View();
-
-            if (string.IsNullOrWhiteSpace(textSearch))
-                return View();
+            if (string.IsNullOrEmpty(textSearch) || string.IsNullOrWhiteSpace(textSearch))
+                return RedirectToAction(nameof(Index));
+            
 
             string txtFormat = textSearch.Trim().ToLower();
             var resultSearch = _context.Dichvukhams.Where(dv => dv.TenDichVu.ToLower().Contains(txtFormat));
@@ -107,7 +105,7 @@ namespace WebPhongKhamNhi.Controllers
                     if (dvUpdate == null) return NotFound();
 
                     //kiểm tra trùng tên
-                    var dvSameName = _context.Dichvukhams.Where(dv => dv.TenDichVu == dichvukham.TenDichVu).FirstOrDefault();
+                    var dvSameName = _context.Dichvukhams.Where(dv => dv.TenDichVu == dichvukham.TenDichVu && dv.MaDichVu!=id).FirstOrDefault();
                     if (dvSameName != null)
                     {
                         ViewData["DichVuDuplicateName"] = "Tên dịch vụ đã tồn tại, vui lòng nhập tên khác.";
@@ -137,6 +135,14 @@ namespace WebPhongKhamNhi.Controllers
         {
             Dichvukham dv = _context.Dichvukhams.Find(id);
 
+            //Kiểm tra dịch vụ này có được tham chiếu tới phiếu đăng kí khám nào không?
+            var phieuDks = _context.Phieudangkykhams.Where(p => p.MaDichVu == id);
+            if (phieuDks != null)
+            {
+                ViewData["DichVuFK"] = "Dịch vụ này đã được sử dụng trong phiếu đăng kí, " +
+                    "xoá dịch vụ sẽ làm thay đổi dữ liệu tất cả các phiếu đăng kí liên quan";
+            }
+
             return View(dv);
         }
 
@@ -147,13 +153,23 @@ namespace WebPhongKhamNhi.Controllers
         {
             try
             {
+                //Kiểm tra dịch vụ này có được tham chiếu tới phiếu đăng kí khám nào không?
+                var phieuDks = _context.Phieudangkykhams.Where(p => p.MaDichVu == id);
+                if (phieuDks != null)
+                {
+                    foreach (var p in phieuDks)
+                    {
+                        p.MaDichVu = null;
+                    }
+                }
+
                 Dichvukham dvDel = _context.Dichvukhams.Find(id);
                 _context.Dichvukhams.Remove(dvDel);
                 _context.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception ex)
             {
                 return View();
             }
