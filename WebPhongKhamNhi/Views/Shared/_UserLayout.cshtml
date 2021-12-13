@@ -10,6 +10,7 @@
     <link href="~/usercontent/css/style.css" rel="stylesheet" type="text/css" media="all" />
     <!--slider-->
     <link href="~/usercontent/css/camera.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <script type='text/javascript' src='~/usercontent/js/jquery.min.js'></script>
     <script type='text/javascript' src='~/usercontent/js/jquery.easing.1.3.js'></script>
     @*<script type='text/javascript' src='~/usercontent/js/camera.min.js'></script>*@
@@ -32,6 +33,31 @@
 
 <body>
     <div class="wrap">
+        <div>
+            <div style="display:flex; justify-content:end; background-color:darkgray; align-items:center;height:50px;margin-bottom:auto;">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    
+                    <div>Xin chào @User.Identity.Name !</div>
+                    <form action="/Identity/Logout" method="post" style="margin:0 10px">
+                        <button type="submit" class="mr-4" style="cursor:pointer;border:none;background-color:darkgray;">Đăng xuất</button>
+
+                    </form>
+                }
+                else
+                {
+                    <div class="mr-4" style="cursor:pointer;" data-toggle="modal" data-target="#dangKy">Đăng ký</div>
+                    <div style="margin-right:20px; cursor:pointer;" data-toggle="modal" data-target="#dangNhap">Đăng nhập</div>
+                }
+
+
+
+                <!-- Modal -->
+
+
+            </div>
+        </div>
+
         <div class="header">
             <div class="logo">
                 <a href="index.html">
@@ -46,6 +72,89 @@
             </div>
             <div class="clear"></div>
         </div>
+
+        <div class="modal fade" id="dangKy" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Đăng ký</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div id="result" style="text-align:center;color:red"></div>
+                    <form method="post" id="register">
+                        <div class="modal-body d-flex flex-column" style="padding:10px 50px;">
+                            <div style="display:flex;">
+                                <span style="font-weight: 600; margin-top: 5px; flex: 2;">Họ và tên</span>
+                                <input  type="text" id="HoTen" name="HoTen" style="margin: 5px 0 20px; flex: 5;" required/>
+                            </div>
+                            <div style="display:flex;">
+                                <span style="font-weight: 600; margin-top: 5px; flex: 2;">Ngày sinh</span>
+                                <input type="date" id="NgaySinh" name="NgaySinh" style="margin: 5px 0 20px; flex: 5;" />
+                            </div>
+                            <div style="display:flex;">
+                                <span style="font-weight:600;margin-top:5px;flex:2;">Tên đăng nhập</span>
+                                <input type="text" id="TenTaiKhoan" name="TenTaiKhoan" style="margin: 5px 0 20px;flex:5;" />
+                            </div>
+                            <div style="display:flex;">
+                                <span style="font-weight: 600; margin-top: 5px; flex: 2;">Mật khẩu</span>
+                                <input type="password" id="MatKhau" name="MatKhau" style="margin: 5px 0 20px; flex: 5;" />
+                            </div>
+
+                            <div style="display:flex;">
+                                <span style="font-weight: 600; margin-top: 5px; flex: 2;">Địa chỉ</span>
+                                <input type="text" id="DiaChi" name="DiaChi" style="margin: 5px 0 20px; flex: 5;" />
+                            </div>
+                            <div style="display:flex;">
+                                <span style="font-weight: 600; margin-top: 5px; flex: 2;">Số điện thoại</span>
+                                <input type="text" id="sdt" name="SoDienThoai" style="margin: 5px 0 20px; flex: 5;" pattern="[0-9]{10}" title="Số điện thoại phải có 10 số !" required/>
+                            </div>
+                            <div style="display:flex;">
+                                <span style="font-weight: 600; margin-top: 5px; flex: 2;">Tên người thân</span>
+                                <input type="text" id="TenNguoiThan" name="TenNguoiThan" style="margin: 5px 0 20px; flex: 5;" />
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="submitRegister">Đăng ký</button>
+                        </div>
+                        <div style="text-align:center; margin-bottom:20px;">Bạn đã có tài khoản? <span data-dismiss="modal" style="cursor:pointer;color:#6161c2;" data-toggle="modal" data-target="#dangNhap">Đăng nhập</span></div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="dangNhap" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Đăng nhập</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                        @if (TempData["Message"] != null)
+                        {
+                            <div style="text-align:center;color:red">@TempData["Message"]</div>
+                        }
+                    <form action="/Identity/Login" method="post">
+                        <div class="modal-body d-flex flex-column" style="padding:10px 50px;">
+                            <div style="font-weight:600">Tên đăng nhập</div>
+                            <input type="text" name="username" style="margin: 5px 0 20px;" />
+                            <div style="font-weight:600">Mật khẩu</div>
+                            <input type="password" name="password" style="margin: 5px 0 20px;" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                        </div>
+                        <div style="text-align:center; margin-bottom:20px;">Bạn chưa có tài khoản? <span data-dismiss="modal" style="cursor:pointer;color:#6161c2;" data-toggle="modal" data-target="#dangKy">Đăng ký</span></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="menu">
             <ul class="nav">
                 <li class="active">
@@ -65,7 +174,7 @@
             <div class="social-icons">
                 <ul>
                     <li>
-                        <a class="facebook" href="#" target="_blank"> </a>
+                        <a href="about.html">Về chúng tôi</a>
                     </li>
                     <li>
                         <a class="twitter" href="#" target="_blank"></a>
@@ -103,6 +212,65 @@
             </div>
         </div>
     </div>
+
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/content/vendor/jquery/jquery.min.js"></script>
+    <script src="~/content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script>
+       
+        $(document).ready(function () {
+
+            function validate() {
+                let hoten = $("#HoTen").val(); 
+                let ngaysinh = $("#NgaySinh").val();
+                let taikhoan = $("#TenTaiKhoan").val();
+                let matkhau = $("#MatKhau").val();
+                let diachi = $("#DiaChi").val();
+                let sdt = $("#sdt").val();
+                let tennguoithan = $(TenNguoiThan).val();
+                if (hoten != "" && ngaysinh != "" && taikhoan != "" && matkhau != "" && diachi != "" && sdt.length==10 && typeof(sdt-0)=="number") {
+                    
+                    return true;
+                }
+                
+                alert(`Họ tên, ngày sinh, tài khoản, mật khẩu, địa chỉ, số điện thoại không được bỏ trống.
+Số điện thoại phải có 10 số.`
+                    );
+                return false;
+            };
+            
+            $("#submitRegister").click(function (e) {
+                let hoten = $("#HoTen").val();
+                let ngaysinh = $("#NgaySinh").val();
+                let taikhoan = $("#TenTaiKhoan").val();
+                let matkhau = $("#MatKhau").val();
+                let diachi = $("#DiaChi").val();
+                let sdt = $("#sdt").val();
+                let tennguoithan = $(TenNguoiThan).val();
+                e.preventDefault();
+                if (validate()) {
+                    $.ajax({
+                        url: "/Identity/Register",
+                        type: "POST",
+                        data: {HoTen:hoten,NgaySinh:ngaysinh,TenTaiKhoan:taikhoan,MatKhau:matkhau,DiaChi:diachi,SoDienThoai:sdt,TenNguoiThan:tennguoithan},
+                        success: function (result, status, xhr) {
+                            alert(result);
+                            $('#dangKy').modal("hide");
+                        },
+                        error: function (error) {
+                            $("#result").html(error.responseText)
+                            
+                        }
+                    });
+                }
+
+            });
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

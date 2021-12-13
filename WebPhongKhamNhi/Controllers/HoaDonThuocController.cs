@@ -66,6 +66,8 @@ namespace WebPhongKhamNhi.Controllers
 
                 };
                 _context.Chitiethoadonthuocs.Add(hdt);
+                var thuoc = _context.Thuocs.FirstOrDefault(x => x.MaThuoc == hdt.MaThuoc);
+                thuoc.SoLuongTonKho = thuoc.SoLuongTonKho - hdt.SoLuong;
                 _context.SaveChanges();
             }
             var tongtien = _context.Chitiethoadonthuocs.Where(x => x.MaHoaDonThuoc == kh.MaHoaDon).Sum(x => x.ThanhTien);
