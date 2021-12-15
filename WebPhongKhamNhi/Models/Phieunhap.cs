@@ -25,7 +25,6 @@ namespace WebPhongKhamNhi.Models
         public decimal? TongTien { get; set; }
 
         [DisplayName("Mã nhà sản xuất")]
-        [Required(ErrorMessage = "{0} không được để trống")]
         public int? MaNhaSanXuat { get; set; }
 
         public virtual Nhasanxuat MaNhaSanXuatNavigation { get; set; }

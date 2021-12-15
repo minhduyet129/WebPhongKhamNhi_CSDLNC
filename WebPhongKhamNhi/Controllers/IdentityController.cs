@@ -74,7 +74,5 @@ namespace WebPhongKhamNhi.Controllers
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "User");
         }
-
-
     }
 }
