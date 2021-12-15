@@ -1,0 +1,144 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+    #form-dang-ky {
+        background-color: #E1F3FB;
+        padding: 30px;
+        margin-top: 20px;
+        border-radius: 20px;
+    }
+
+        #form-dang-ky input, #form-dang-ky select, #form-dang-ky textarea {
+            margin-bottom: 15px;
+        }
+
+    .error {
+        color: red;
+        background-color: #acf;
+    }
+</style>
+
+@if (ViewData["UserDangKyMessage"] != null)
+{
+    <div class="alert alert-success">
+        <p>@ViewData["UserDangKyMessage"]</p>
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <div id="form-dang-ky">
+                <h3 class="text-center">
+                    ĐĂNG KÝ KHÁM BỆNH</h1>
+                    <br />
+                    <form id="formDangKy" action="@Url.Action("Save","UserDangKyKham")" method="POST" class="form-group text-center">
+                        @Html.DropDownList("maDichVu",
+                                    new SelectList(ViewBag.dichVuKham, nameof(Dichvukham.MaDichVu), nameof(Dichvukham.TenDichVu)),
+                                    "--Chọn loại dịch vụ khám--",
+                                    new { @class = "form-control" })
+                        <div class="row">
+                            <div class="col-lg-6">
+                                @Html.DropDownList("maKhoa",
+                                    new SelectList(ViewBag.khoa, nameof(Khoa.MaKhoa), nameof(Khoa.TenKhoa)),
+                                    "--Chọn chuyên khoa--",
+                                    new { @class = "form-control" })
+                            </div>
+                            <div class="col-lg-6">
+                                <select id="maBacSi" name="maBacSi" class="form-control">
+                                    <option>--Chọn bác sĩ--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <label for="">Chọn ngày giờ khám</label>
+                        <input type="datetime-local" id="ngayDangKy" 
+                               name="ngayDangKy" class="form-control ngay-kham"
+                               min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")">
+
+                        <label for="">Thông tin vấn đề sức khoẻ cần khám</label>
+                        <textarea class="form-control" placeholder="Mô tả thông tin sức khoẻ tại đây ..."></textarea>
+                        <input type="submit" class="btn btn-primary btn-block" value="Đăng ký" />
+
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        $(document).ready(function () {
+            //load dữ liệu lên trang
+            var today = new Date();
+            today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+            var todayFormat = today.toISOString().slice(0, 16);
+            $('#form-dang-ky .ngay-kham').val(todayFormat);
+
+            //giá trị min cho ngày đăng kí là thời điểm hiện tại
+            $('#form-dang-ky .ngay-kham').min = todayFormat;
+
+
+            //event hiển thị bác sĩ khi chọn khoa
+            $('#maKhoa').change(function () {
+                //lấy bác sĩ theo mã khoa
+                var maKhoa = $('#maKhoa :selected').val();
+                $.ajax({
+                    url: "/UserDangKyKham/GetListBacSiByKhoaId",
+                    type: "POST",
+                    dataType: "json",
+                    data: { maKhoa: maKhoa }
+                }).done(function (response) {
+                    if (response.status) {
+                        var bacSis = response.data;
+
+                        console.log(bacSis)
+
+                        removeOption();
+
+                        $.each(bacSis, function (index, element) {
+                            $('#maBacSi').append(new Option(element.hoTen, element.maBacSi))
+                        })
+                    }
+                    else {
+                        alert('failed')
+                        $('#maBacSi').find('option')
+                            .remove()
+                            .end()
+                            .append(new Option('--Chọn bác sĩ--', '-1'))
+                    }
+                }).fail(function (response) {
+                    alert(response)
+                })
+
+
+                //hàm xoá option trong select
+                var removeOption = function () {
+                    $('#maBacSi').find('option')
+                        .remove()
+                        .end()
+                        .append(new Option('--Chọn bác sĩ--', '-1'))
+                }
+            })
+
+
+            //validation using jquery
+            $('#formDangKy').validate({
+                rules: {
+                    maDichVu: "required"
+                },
+                messages: {
+                    maDichVu: "Bạn hãy chọn dịch vụ mong muốn"
+                },
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            })
+        })
+    </script>
+}
