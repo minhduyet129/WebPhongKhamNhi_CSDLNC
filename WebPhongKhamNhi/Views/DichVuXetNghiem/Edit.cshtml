@@ -8,6 +8,10 @@
 
 <h1>Sửa dịch vụ xét nghiệm</h1>
 <hr />
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-danger">@ViewData["Message"]</div>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -15,7 +19,7 @@
             <input type="hidden" asp-for="MaXetNghiem" />
             <div class="form-group">
                 <label asp-for="TenXetNghiem" class="control-label">Tên xét nghiệm:  </label>
-                @Html.DisplayFor(model => model.TenXetNghiem)
+                <input asp-for="TenXetNghiem" class="form-control" />
                 <span asp-validation-for="TenXetNghiem" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -16,9 +16,10 @@ namespace WebPhongKhamNhi.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index( )
         {
-            var listdichvuxetnghiem = _context.Dichvuxetnghiems.OrderBy(x => x.TenXetNghiem);
+            var listdichvuxetnghiem = _context.Dichvuxetnghiems.OrderBy(x => x.TenXetNghiem);            
+            
 
             return View(listdichvuxetnghiem);
         }
@@ -56,7 +57,8 @@ namespace WebPhongKhamNhi.Controllers
             if (dvxn == null)
             {
                 return NotFound();
-            }
+            } 
+            
             return View(dvxn);
         }
         [HttpPost]
@@ -68,10 +70,14 @@ namespace WebPhongKhamNhi.Controllers
             {
                 return NotFound();
             }
-            ViewBag.TenXetNghiem = id;
-            
+            var oldkhoa = _context.Dichvuxetnghiems.FirstOrDefault(x => x.TenXetNghiem == Dichvuxetnghiem.TenXetNghiem);
+            if (oldkhoa != null && oldkhoa.MaXetNghiem != id)
+            {
+                ViewData["Message"] = "Tên dịch vụ xét nghiệm đã tồn tại";
+                return View();
+            }
+            dvxnUpdate.TenXetNghiem = Dichvuxetnghiem.TenXetNghiem;
             dvxnUpdate.ChiPhi = Dichvuxetnghiem.ChiPhi;
-
             _context.Dichvuxetnghiems.Update(dvxnUpdate);
             _context.SaveChanges();
             return RedirectToAction("Index");
