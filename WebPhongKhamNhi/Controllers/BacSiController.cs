@@ -9,7 +9,7 @@ using WebPhongKhamNhi.Models;
 
 namespace WebPhongKhamNhi.Controllers
 {
-    [Authorize]
+    
     public class BacSiController : Controller
     {
         private readonly QLPhongKhamNhiContext _context;

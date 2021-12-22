@@ -37,6 +37,6 @@
         <input type="hidden" asp-for="MaHoSo" />
         <input type="hidden" name="MaBenhNhan" value="@ViewBag.MaBenhNhan" />
         <input type="submit" value="Xóa" class="btn btn-danger" /> |
-        <a asp-action="Index">Danh sách hồ sơ khám</a>
+        <a asp-action="GetHoSoTheoBenhNhan" asp-route-id="@Model.MaBenhNhan">Quay lại danh sách hồ sơ</a>>
     </form>
 </div>
