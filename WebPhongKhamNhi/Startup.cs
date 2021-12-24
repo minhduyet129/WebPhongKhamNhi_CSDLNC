@@ -37,7 +37,7 @@ namespace WebPhongKhamNhi
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Identity/Login";
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 });
             
         }
@@ -68,7 +68,7 @@ namespace WebPhongKhamNhi
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=User}/{action=Index}/{id?}");
             });
         }
     }

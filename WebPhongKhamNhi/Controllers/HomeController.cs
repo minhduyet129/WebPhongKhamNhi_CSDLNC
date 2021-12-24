@@ -13,14 +13,20 @@ namespace WebPhongKhamNhi.Controllers
     {
 
         private readonly ILogger<HomeController> _logger;
+        private readonly QLPhongKhamNhiContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, QLPhongKhamNhiContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
+            ViewBag.SLBacSi = _context.Bacsis.Count();
+            ViewBag.SLBenhNhan = _context.Benhnhans.Where(x => x.LoaiTaiKhoan == 0).Count();
+            ViewBag.SLNSX = _context.Nhasanxuats.Count();
+            ViewBag.SLThuoc = _context.Thuocs.Count();
             return View();
         }
 

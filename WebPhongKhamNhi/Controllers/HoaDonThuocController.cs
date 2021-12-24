@@ -45,36 +45,86 @@ namespace WebPhongKhamNhi.Controllers
         [HttpPost]
         public IActionResult Create(List<Chitiethoadonthuoc> cthoadonthuoc)
         {
-            var kh = new Hoadonthuoc()
-            {
-                NgayThanhToan=DateTime.Now
+            //var kh = new Hoadonthuoc()
+            //{
+            //    NgayThanhToan=DateTime.Now
                 
-            };
-            _context.Hoadonthuocs.Add(kh);
+            //};
+            //_context.Hoadonthuocs.Add(kh);
             
 
-            _context.SaveChanges();
-            foreach (var cthdt in cthoadonthuoc)
+            //_context.SaveChanges();
+            //foreach (var cthdt in cthoadonthuoc)
+            //{
+            //    var hdt = new Chitiethoadonthuoc()
+            //    {
+            //        MaHoaDonThuoc=kh.MaHoaDon,
+            //        MaThuoc=cthdt.MaThuoc,
+            //        SoLuong=cthdt.SoLuong,
+            //        Gia=cthdt.Gia,
+            //        ThanhTien= cthdt.SoLuong * cthdt.Gia
+
+            //    };
+            //    _context.Chitiethoadonthuocs.Add(hdt);
+            //    var thuoc = _context.Thuocs.FirstOrDefault(x => x.MaThuoc == hdt.MaThuoc);
+            //    thuoc.SoLuongTonKho = thuoc.SoLuongTonKho - hdt.SoLuong;
+            //    _context.SaveChanges();
+            //}
+            //var tongtien = _context.Chitiethoadonthuocs.Where(x => x.MaHoaDonThuoc == kh.MaHoaDon).Sum(x => x.ThanhTien);
+            
+            //kh.TongTien = tongtien;
+            //_context.SaveChanges();
+            //return RedirectToAction("Details",new { id=kh.MaHoaDon});
+
+
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                var hdt = new Chitiethoadonthuoc()
+                try
                 {
-                    MaHoaDonThuoc=kh.MaHoaDon,
-                    MaThuoc=cthdt.MaThuoc,
-                    SoLuong=cthdt.SoLuong,
-                    Gia=cthdt.Gia,
-                    ThanhTien= cthdt.SoLuong * cthdt.Gia
+                    var kh = new Hoadonthuoc()
+                    {
+                        NgayThanhToan = DateTime.Now
 
-                };
-                _context.Chitiethoadonthuocs.Add(hdt);
-                var thuoc = _context.Thuocs.FirstOrDefault(x => x.MaThuoc == hdt.MaThuoc);
-                thuoc.SoLuongTonKho = thuoc.SoLuongTonKho - hdt.SoLuong;
-                _context.SaveChanges();
+                    };
+                    _context.Hoadonthuocs.Add(kh);
+
+
+                    _context.SaveChanges();
+                    foreach (var cthdt in cthoadonthuoc)
+                    {
+                        var hdt = new Chitiethoadonthuoc()
+                        {
+                            MaHoaDonThuoc = kh.MaHoaDon,
+                            MaThuoc = cthdt.MaThuoc,
+                            SoLuong = cthdt.SoLuong,
+                            Gia = cthdt.Gia,
+                            ThanhTien = cthdt.SoLuong * cthdt.Gia
+
+                        };
+                        _context.Chitiethoadonthuocs.Add(hdt);
+                        var thuoc = _context.Thuocs.FirstOrDefault(x => x.MaThuoc == hdt.MaThuoc);
+                        thuoc.SoLuongTonKho = thuoc.SoLuongTonKho - hdt.SoLuong;
+                        _context.SaveChanges();
+                    }
+                    var tongtien = _context.Chitiethoadonthuocs.Where(x => x.MaHoaDonThuoc == kh.MaHoaDon).Sum(x => x.ThanhTien);
+
+                    kh.TongTien = tongtien;
+                    _context.SaveChanges();
+                    transaction.Commit();
+                    return RedirectToAction("Details", new { id = kh.MaHoaDon });
+
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    //kiểm tra có 2 thuốc trùng nhau
+                    TempData["Message"] = "Bạn phải chọn thuốc khác nhau";
+                    var listhoadon = _context.Hoadonthuocs.OrderByDescending(x => x.NgayThanhToan).ToList();
+                    var listthuoc = _context.Thuocs.OrderBy(x => x.Ten);
+                    ViewBag.Thuoc = listthuoc;
+                    return View("Index",listhoadon);
+                }
             }
-            var tongtien = _context.Chitiethoadonthuocs.Where(x => x.MaHoaDonThuoc == kh.MaHoaDon).Sum(x => x.ThanhTien);
-            
-            kh.TongTien = tongtien;
-            _context.SaveChanges();
-            return RedirectToAction("Details",new { id=kh.MaHoaDon});
         }
         
         [HttpGet]

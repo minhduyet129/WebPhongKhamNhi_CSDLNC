@@ -46,7 +46,7 @@ namespace WebPhongKhamNhi.Controllers
                  HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                  if(user.LoaiTaiKhoan == 1)
                 {
-                    return Redirect("/");
+                    return Redirect("/Home");
                 }
                 return Redirect(ReturnUrl == null ? "/User" : ReturnUrl);
             }
